@@ -245,6 +245,7 @@ Croiser deux tables hétérogènes avec `pd.merge()`, traduire des codes via `.m
 Vous gérez deux sources de données distinctes dans votre boutique : un historique de ventes contenant des identifiants produits, et un catalogue général fournissant les détails et les catégories.
 
 Partez des deux DataFrames suivants :
+
 ```python
 # Table des ventes
 df_ventes = pd.DataFrame({
