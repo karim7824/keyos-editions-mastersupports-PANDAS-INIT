@@ -249,6 +249,60 @@ print(catalogue_complet)
 
 ## Exercices de fin de chapitre
 
-**Exercice 1 :** Créez deux petits DataFrames avec une colonne identique et utilisez `merge` pour les fusionner.
 
-**Exercice 2 :** Utilisez `pd.concat` pour ajouter une ligne supplémentaire à un DataFrame existant en créant un second DataFrame contenant uniquement cette ligne.
+**Exercice  1 :** Concaténation d'historiques trimestriels et réindexation (`pd.concat`)
+
+Vous gérez l'analyse des ventes d'une plateforme de commerce électronique. Les données de ventes du premier trimestre (`Q1`) et du deuxième trimestre (`Q2`) ont été extraites par deux systèmes informatiques distincts sous forme de deux DataFrames indépendants. Vous devez consolidé ces deux fichiers en un seul historique continu.
+
+```python
+import pandas as pd
+
+# Ventes du 1er Trimestre (Q1)
+df_q1 = pd.DataFrame({
+    'Code_Produit': ['P-01', 'P-02', 'P-03'],
+    'Ventes_Unites': [150, 320, 85],
+    'Chiffre_Affaires': [7500.0, 8000.0, 6800.0]
+})
+
+# Ventes du 2ème Trimestre (Q2)
+df_q2 = pd.DataFrame({
+    'Code_Produit': ['P-01', 'P-02', 'P-04'],
+    'Ventes_Unites': [200, 290, 110],
+    'Chiffre_Affaires': [10000.0, 7250.0, 4400.0]
+})
+
+```
+
+Assemblez verticalement les deux DataFrames `df_q1` et `df_q2` à l'aide de `pd.concat()` pour obtenir un DataFrame unique nommé `df_semestre`.
+Observez l'index du résultat obtenu sans argument spécifique. Réappliquez la concaténation en utilisant le paramètre `ignore_index=True` pour réinitialiser proprement la séquence numérique de l'index de 0 à 5.
+À partir du DataFrame `df_semestre` consolidé, effectuez un regroupement (`groupby`) par `'Code_Produit'` pour calculer la somme totale des `'Ventes_Unites'` et du `'Chiffre_Affaires'` sur l'ensemble du semestre.
+
+---
+
+**Exercice  2 :** Jointures relationnelles et analyse de correspondances (`pd.merge`)
+
+Au sein du service RH d'une entreprise, les informations sur le personnel sont réparties dans deux tables : d'une part, la liste des collaborateurs avec leur département, et d'autre part, la grille des budgets alloués par département. Certaines informations sont incomplètes ou asymétriques.
+
+```python
+import pandas as pd
+
+# Table des employés
+df_employes = pd.DataFrame({
+    'ID_Emp': [101, 102, 103, 104, 105],
+    'Nom': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+    'ID_Dept': ['D01', 'D02', 'D01', 'D03', 'D05']
+})
+
+# Table des départements et budgets
+df_departements = pd.DataFrame({
+    'ID_Dept': ['D01', 'D02', 'D03', 'D04'],
+    'Nom_Dept': ['R&D', 'Marketing', 'Ventes', 'Logistique'],
+    'Budget_kEUR': [250, 150, 300, 100]
+})
+
+```
+
+**Jointure interne (`inner`) :** Effectuez une jointure entre `df_employes` et `df_departements` sur la clé commune `'ID_Dept'` avec `how='inner'`. Quels employés sont exclus du résultat et pourquoi ?
+**Jointure à gauche (`left`) :** Réalisez une jointure à gauche en conservant tous les employés de la table `df_employes`. Observez la valeur attribuée au département de l'employé `'Eve'`.
+**Jointure externe (`outer`) :** Réalisez une jointure externe globale (`how='outer'`) pour faire apparaître l'ensemble des employés et l'ensemble des départements (y compris ceux sans collaborateurs rattachés).
+**Calcul de synthèse :** À partir du résultat de la jointure externe, calculez la masse budgétaire moyenne par département à l'aide de la méthode `.agg()`.
