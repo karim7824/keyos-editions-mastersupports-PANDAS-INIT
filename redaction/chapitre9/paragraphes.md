@@ -260,6 +260,31 @@ print(synthese_horaire)
 
 ## Exercices de fin de chapitre 
 
-**Exercice 1 :** Créez un `Timestamp` correspondant à la date d'aujourd'hui et ajoutez-lui un `Timedelta` de 48 heures.
 
-**Exercice 2 :** Utilisez `period_range` pour générer une liste de 6 périodes trimestrielles commençant au premier trimestre 2026.
+**Exercice 1 :** Manipulation d'instants (`Timestamp`) et de durées (`Timedelta`)
+
+Dans le cadre de la gestion logistique d'une plateforme e-commerce, vous devez automatiser le calcul de la date de livraison estimée d'une commande passée à un instant précis, en lui ajoutant un délai de traitement de 48 heures.
+
+```python
+import pandas as pd
+
+# Instant de validation de la commande
+date_commande = pd.Timestamp('2026-11-05 10:15:00')
+
+```
+
+Affichez la date et l'heure de la commande ainsi que le jour de la semaine correspondant en clair (ex: *Thursday*) à l'aide des attributs dédiés de l'objet `Timestamp`.
+Créez un objet `Timedelta` représentant une durée exacte de **48 heures** (ou 2 jours).
+Calculez et affichez la date et l'heure exactes de la livraison prévisionnelle en additionnant l'instant de commande et le `Timedelta`.
+Vérifiez par le calcul l'écart temporel en jours entre cette nouvelle date de livraison et la date d'origine.
+
+---
+
+**Exercice 2 :** Génération de plages temporelles (`period_range`) et analyse d'un index de périodes
+
+Le service financier d'une entreprise souhaite structurer un tableau de suivi budgétaire trimestriel pour l'ensemble de l'année 2026 et de l'année 2027 afin d'anticiper les bilans comptables.
+
+À l'aide de la fonction **`pd.period_range()`**, générez une séquence régulière de **6 périodes trimestrielles** (`freq='Q'`) en définissant comme point de départ le premier trimestre 2026 (`'2026Q1'`).
+Affichez la liste des périodes ainsi générées pour valider l'intervalle.
+Créez une `Series` Pandas nommée `budget_previsionnel` contenant des montants aléatoires ou arbitraires (ex: `[150000, 180000, 160000, 210000, 190000, 220000]`) en associant la plage de périodes générée à l'étape 1 en tant qu'index.
+Extrayez et affichez uniquement le montant du dernier trimestre de cette série en utilisant l'indexation par étiquette.
