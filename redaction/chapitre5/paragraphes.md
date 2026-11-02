@@ -354,6 +354,62 @@ print("\nPremier produit (position 0) :\n", premier_produit[['Nom', 'Prix_TTC']]
 
 ## Exercices de fin de chapitre
 
-**Exercice 1 :** Importez un petit fichier CSV de votre choix et affichez les noms des colonnes à l'aide de l'attribut approprié.
 
-**Exercice 2 :** Créez un DataFrame à partir d'un dictionnaire, puis utilisez `.iloc` pour extraire uniquement la première colonne de toutes les lignes.
+**Exercice 1 :** Manipulation des colonnes, calculs vectorisés et nettoyage
+
+Vous gérez le catalogue d'une boutique en ligne. Vous devez enrichir les données brutes par des calculs de prix, renommer des colonnes pour les rendre plus explicites, et nettoyer les variables superflues.
+
+```python
+import pandas as pd
+import numpy as np
+
+# Données brutes du catalogue
+data = {
+    'Ref': ['A100', 'B200', 'C300', 'D400'],
+    'Designation': ['Écran 24 pouces', 'Clavier sans fil', 'Souris optique', 'Casque Audio'],
+    'Prix_Brut': [150.0, 45.0, 20.0, 60.0],
+    'Stock_Actuel': [12, 45, 120, 0],
+    'Ancienne_Col_Inutile': [np.nan, np.nan, np.nan, np.nan]
+}
+
+df_catalogue = pd.DataFrame(data)
+
+```
+
+À l'aide de la **vectorisation**, créez une nouvelle colonne nommée `'Prix_TTC'` en appliquant une majoration de 20 % sur le `'Prix_Brut'` ($Prix\_Brut \times 1.20$).
+Calculez une colonne `'Valeur_Stock_TTC'` représentant la valeur financière totale du stock pour chaque produit en multipliant le `'Prix_TTC'` par le `'Stock_Actuel'`.
+Renommez la colonne `'Ref'` en `'Reference_Produit'` et la colonne `'Designation'` en `'Nom_Article'` en utilisant la méthode `.rename()`.
+Supprimez proprement la colonne `'Ancienne_Col_Inutile'` du `DataFrame` à l'aide de la méthode `drop()`.
+Affichez enfin le `DataFrame` filtré et réordonné pour ne garder que les colonnes : `'Reference_Produit'`, `'Nom_Article'`, `'Prix_TTC'`, `'Stock_Actuel'` et `'Valeur_Stock_TTC'`.
+
+---
+
+**Exercice 2 :** Filtrage multicritère, gestion des index et extraction avancée (`.loc` vs `.iloc`)
+
+Une salle de sport souhaite analyser la fréquentation de ses adhérents inscrits dans différentes antennes régionales, structurer un index métier et extraire des profils précis.
+
+```python
+import pandas as pd
+
+# Données des adhérents
+data_adherents = {
+    'ID_Membre': ['M01', 'M02', 'M03', 'M04', 'M05'],
+    'Prenom': ['Lucas', 'Chloé', 'Thomas', 'Manon', 'Alexandre'],
+    'Ville': ['Paris', 'Lyon', 'Marseille', 'Paris', 'Lyon'],
+    'Abonnement_Mois': [12, 6, 24, 1, 12],
+    'Note_Satisfaction': [8.5, 9.0, 6.5, 4.0, 9.5]
+}
+
+df_gym = pd.DataFrame(data_adherents)
+
+```
+
+**Indexation métier :** Transformez la colonne `'ID_Membre'` en index principal du `DataFrame` à l'aide de `.set_index()`.
+**Filtrage multicritère :** À l'aide d'un masque booléen combiné, isolez et affichez les adhérents basés à **Paris** ET dont l'**Abonnement_Mois** est supérieur ou égal à 12 mois (utilisez les opérateurs `&` et entourez chaque condition de parenthèses).
+**Extraction par étiquette (`.loc`) :**
+* Recherchez et affichez la ligne complète correspondant au membre d'identifiant `'M03'`.
+* Utilisez un découpage (`slicing`) avec `.loc` pour extraire tous les membres allant de `'M02'` à `'M04'` inclus sur les colonnes `'Prenom'` et `'Ville'`.
+
+**Extraction par position (`.iloc`) :**
+* Extrayez la première ligne du `DataFrame` en utilisant son index positionnel `0`.
+* À l'aide de `.iloc`, extrayez un sous-tableau contenant les lignes d'indice 1 à 3 (exclue) et uniquement les deux premières colonnes.
