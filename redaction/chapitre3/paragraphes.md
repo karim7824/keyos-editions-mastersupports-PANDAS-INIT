@@ -429,10 +429,48 @@ print(chiffre_affaires.describe())
 
 ## Exercices de fin de chapitre
 
-**Exercice 1 :** Extraction d'une période spécifique et transformation ciblée des valeurs. 
+**Exercice 1 :** Alignement automatique et gestion des valeurs manquantes (`NaN`)
 
-Dans cet exemple, nous disposons d'un suivi journalier du trafic d'un site web. Nous souhaitons **extraire** uniquement la semaine où s'est déroulée une campagne promotionnelle, puis **transformer** ces données en leur appliquant un coefficient de correction lié à une anomalie de comptage.
+Vous gérez les stocks de deux entrepôts (Nord et Sud) pour une enseigne high-tech. Les listes de produits en stock ne sont pas rigoureusement identiques dans les deux entrepôts. Vous devez fusionner ces inventaires de manière intelligente.
 
-**Exercice 2 :** Extraction de composantes temporelles (.dt) et transformation conditionnelle. 
+```python
+import pandas as pd
 
-Cet exemple illustre comment extraire des informations sémantiques à partir des dates (les jours de la semaine) pour ensuite appliquer une transformation conditionnelle (par exemple, appliquer un tarif week-end ou jour ouvré).
+# Stock de l'entrepôt Nord
+stock_nord = pd.Series([120, 45, 80, 30], index=['Clavier', 'Souris', 'Casque', 'Webcam'])
+
+# Stock de l'entrepôt Sud
+stock_sud = pd.Series([90, 55, 110], index=['Clavier', 'Souris', 'Écran'])
+
+```
+
+Additionnez directement `stock_nord` et `stock_sud` en utilisant l'opérateur `+`. Observez l'apparition des valeurs `NaN` sur les produits asymétriques.
+Refaites le calcul en utilisant la méthode `.add()` de Pandas et le paramètre `fill_value=0` pour sommer correctement les stocks sans perdre les articles exclusifs à un seul entrepôt.
+À partir du stock global ainsi obtenu, extrayez uniquement les articles dont le stock total est supérieur ou égal à 100 unités.
+
+---
+
+**Exercice 2 :** Extraction par étiquette (`.loc`), position (`.iloc`) et transformation (`.map()`)
+
+Une agence de voyage numérique souhaite analyser le chiffre d'affaires généré par différentes métropoles européennes au cours du mois, tout en traduisant des codes de performance internes.
+
+```python
+import pandas as pd
+
+# Chiffre d'affaires journalier (en k€) indexé par ville
+ca_villes = pd.Series([45.5, 82.0, 31.0, 67.5, 54.0], index=['Paris', 'Londres', 'Berlin', 'Madrid', Rome := 'Rome'])
+
+# Série de codes de performance associés aux mêmes villes
+codes_perf = pd.Series(['B', 'A', 'C', 'B', 'A'], index=['Paris', 'Londres', 'Berlin', 'Madrid', 'Rome'])
+
+```
+
+Utilisez l'attribut `.loc` pour extraire la tranche de données allant de `'Londres'` à `'Madrid'` inclus.
+Utilisez l'attribut `.iloc` pour extraire les trois premières villes de la série (du premier élément inclus au troisième exclu).
+À l'aide de la méthode `.map()` et du dictionnaire de correspondance ci-dessous, transformez la série `codes_perf` pour remplacer les lettres par des libellés explicites, puis affichez le résultat :
+
+```python
+mapping_perf = {'A': 'Excellent', 'B': 'Conforme', 'C': 'Insuffisant'}
+
+```
+4. Utilisez la méthode `.apply()` couplée à une fonction `lambda` pour appliquer une taxe de majoration de 12 % sur l'ensemble des montants de la série `ca_villes`.
