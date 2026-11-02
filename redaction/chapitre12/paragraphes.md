@@ -247,7 +247,54 @@ print(df_recharge)
 **Choisir le bon format selon l'écosystème cible** : CSV pour l'analyse tabulaire classique, JSON pour le développement web/API, et XML pour les flux d'entreprise stricts.
 
 ## Exercices de fin de chapitre
+**Exercice  1 :** Exportation, encodage et vérification d'intégrité CSV / JSON
 
-**Exercice 1 :** Créez un DataFrame, sauvegardez-le en format CSV, puis rechargez-le dans une nouvelle variable pour vérifier l'intégrité des données.
+Vous développez un module d'export pour un système de gestion de stocks. Vous devez sauvegarder un catalogue de produits au format **CSV** (destiné aux équipes comptables utilisant Excel en France) et au format **JSON** (destiné à l'équipe de développement web), puis vérifier que la relecture des données conserve parfaitement les informations et les caractères accentués.
 
-**Exercice 2 :** Expérimentez la sauvegarde d'un DataFrame contenant des types de données variés (nombres, textes, dates) au format Pickle et confirmez que les types sont conservés après le rechargement.
+```python
+import pandas as pd
+
+# Catalogue de produits contenant des caractères accentués
+data_catalogue = {
+    'Code_SKU': ['SKU-001', 'SKU-002', 'SKU-003', 'SKU-004'],
+    'Libelle': ['Écran incurvé 27"', 'Cafetière intégrée', 'Boîtier PC', 'Clavier rétroéclairé'],
+    'Prix_TTC': [299.99, 89.50, 110.00, 45.90],
+    'En_Stock': [True, False, True, True]
+}
+
+df_produits = pd.DataFrame(data_catalogue)
+
+```
+
+**Export CSV Excel :** Exportez le DataFrame `df_produits` dans un fichier nommé `'catalogue_export.csv'`. Veillez à :
+Ignorer l'index technique de Pandas (`index=False`).
+Utiliser le point-virgule comme séparateur (`sep=';'`).
+Appliquer l'encodage `'utf-8-sig'` pour garantir l'affichage correct des accents sous Microsoft Excel.
+
+
+**Export JSON Web :** Exportez le même DataFrame dans un fichier nommé `'catalogue_export.json'` au format liste d'enregistrements (`orient='records'`), en conservant les caractères accentués en clair (`force_ascii=False`) et avec une indentation de 4 espaces (`indent=4`).
+**Vérification d'intégrité :** Rechargez le fichier CSV généré dans une nouvelle variable `df_verification` à l'aide de `pd.read_csv()` en spécifiant les bons arguments de séparateur et d'encodage. Affichez les types de données (`.dtypes`) et le contenu pour confirmer que les colonnes et les accents ont été fidèlement restitués.
+
+---
+
+**Exercice  2 :** Conservation des types complexes via la sérialisation Pickle
+
+Lors des pipelines de prétraitement en data science, la conversion de types (comme les dates ou les types catégoriels) nécessite du temps de calcul. Le format CSV ne conservant pas nativement ces métadonnées (il relit tout sous forme de texte ou de nombres génériques), vous devez expérimenter la persistance binaire avec **Pickle** pour préserver l'état exact de votre DataFrame entre deux sessions.
+
+```python
+import pandas as pd
+
+# DataFrame avec des types variés : dates, catégories, flottants et booléens
+df_pipeline = pd.DataFrame({
+    'Date_Commande': pd.to_datetime(['2026-11-01', '2026-11-02', '2026-11-03']),
+    'Statut': pd.Series(['Expédié', 'En attente', 'Livré'], dtype='category'),
+    'Montant_EUR': [125.50, 42.00, 310.80],
+    'Prioritaire': [True, False, True]
+})
+
+```
+
+Inspectez et affichez les types initiaux des colonnes du DataFrame `df_pipeline` avec l'attribut `.dtypes`.
+Sauvegardez ce DataFrame sur le disque au format binaire Pickle sous le nom `'session_pipeline.pkl'` à l'aide de la méthode `.to_pickle()`.
+Rechargez le fichier sauvegardé dans une nouvelle variable `df_restaure` en utilisant `pd.read_pickle()`.
+Comparez les types (`.dtypes`) de `df_restaure` avec ceux de `df_pipeline`. Vérifiez notamment que la colonne `'Date_Commande'` est restée en `datetime64[ns]` et la colonne `'Statut'` en `category` sans qu'aucune re-conversion manuelle ne soit nécessaire.
