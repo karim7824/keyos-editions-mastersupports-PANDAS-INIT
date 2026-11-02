@@ -386,7 +386,7 @@ df_dashboard = pd.DataFrame({
 ```
 
 Utilisez la méthode `.plot()` en combinant les arguments **`subplots=True`** et **`layout=(2, 2)`** pour répartir les métriques dans une grille de sous-graphiques.
-Ajustez les dimensions globales à `(10, 6)`, activez le partage de l'axe horizontal (`share=True`), et ajoutez des marqueurs sur les points (`marker='o'`).
+Ajustez les dimensions globales à `(10, 6)`, activez le partage de l'axe horizontal (`sharex=True`), et ajoutez des marqueurs sur les points (`marker='o'`).
 Ajoutez un titre global à la figure (`plt.suptitle(...)`) et utilisez `plt.tight_layout()` pour éviter tout chevauchement avant d'afficher le résultat.
 
 
