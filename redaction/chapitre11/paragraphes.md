@@ -275,6 +275,7 @@ df_q2 = pd.DataFrame({
 
 Assemblez verticalement les deux DataFrames `df_q1` et `df_q2` à l'aide de `pd.concat()` pour obtenir un DataFrame unique nommé `df_semestre`.
 Observez l'index du résultat obtenu sans argument spécifique. Réappliquez la concaténation en utilisant le paramètre `ignore_index=True` pour réinitialiser proprement la séquence numérique de l'index de 0 à 5.
+
 À partir du DataFrame `df_semestre` consolidé, effectuez un regroupement (`groupby`) par `'Code_Produit'` pour calculer la somme totale des `'Ventes_Unites'` et du `'Chiffre_Affaires'` sur l'ensemble du semestre.
 
 ---
@@ -303,6 +304,9 @@ df_departements = pd.DataFrame({
 ```
 
 **Jointure interne (`inner`) :** Effectuez une jointure entre `df_employes` et `df_departements` sur la clé commune `'ID_Dept'` avec `how='inner'`. Quels employés sont exclus du résultat et pourquoi ?
+
 **Jointure à gauche (`left`) :** Réalisez une jointure à gauche en conservant tous les employés de la table `df_employes`. Observez la valeur attribuée au département de l'employé `'Eve'`.
+
 **Jointure externe (`outer`) :** Réalisez une jointure externe globale (`how='outer'`) pour faire apparaître l'ensemble des employés et l'ensemble des départements (y compris ceux sans collaborateurs rattachés).
+
 **Calcul de synthèse :** À partir du résultat de la jointure externe, calculez la masse budgétaire moyenne par département à l'aide de la méthode `.agg()`.
