@@ -4,7 +4,7 @@ Avant d'explorer la puissance des structures de Pandas (`Series` et `DataFrame`)
 
 Dans ce chapitre :
 
-* Pourquoi NumPy pour comprendre Pandas
+* Pourquoi NumPy pour comprendre Pandas ?
 * Le `ndarray` : création, `shape`, `dtype`
 * Indexation et slicing
 * Opérations vectorisées et broadcasting
@@ -28,13 +28,11 @@ En Python, les listes standard sont très souples (elles peuvent contenir du tex
 * **La vectorisation** : Les calculs sont délégués à des routines écrites en C/C++, s'affranchissant totalement des boucles `for` en Python.
 * **Le socle de Pandas** : Une `Series` ou une colonne de `DataFrame` n'est rien d'autre qu'un `ndarray` enrichi d'un index sémantique (des étiquettes).
 
----
-
 ## Le `ndarray` : création, `shape`, `dtype`
 
 Le `ndarray` est l'objet central de NumPy. Ses propriétés fondamentales sont le type des données (`dtype`) et les dimensions (`shape`).
 
-### Exemple 1 : Création d'un tableau unidimensionnel et inspection de sa structure
+Création d'un tableau unidimensionnel et inspection de sa structure
 
 ```python
 import numpy as np
@@ -48,7 +46,7 @@ print("Dimensions (.shape) :", notes_array.shape)        # Affiche (4,) -> 4 él
 
 ```
 
-### Création d'une matrice bidimensionnelle avec typage explicite
+Création d'une matrice bidimensionnelle avec typage explicite
 
 Pour représenter un tableau de données tabulaires (lignes et colonnes), on utilise un tableau 2D en forçant un type précis de données (par exemple, des nombres à virgule `float64`).
 
@@ -65,8 +63,6 @@ print("Type forcé (.dtype) :", matrice_prix.dtype)   # Affiche float64
 print("Forme de la matrice (.shape) :", matrice_prix.shape) # Affiche (3, 2) -> 3 lignes, 2 colonnes
 
 ```
-
----
 
 ## Indexation et slicing
 
@@ -108,8 +104,6 @@ print("Tous les stocks :", catalogue[:, 1])
 
 ```
 
----
-
 ## Opérations vectorisées et broadcasting
 
 Les opérations vectorisées appliquent une formule mathématique à l'ensemble du tableau instantanément. Le **broadcasting** (diffusion) permet quant à lui d'effectuer des calculs entre des tableaux de dimensions différentes (par exemple, ajouter une constante à une matrice ou additionner un vecteur à une matrice).
@@ -146,8 +140,6 @@ tarifs_avec_port = tarifs + frais_port[:, np.newaxis]
 print("Tarifs avec frais de port :\n", tarifs_avec_port)
 
 ```
-
----
 
 ## Fonctions mathématiques et statistiques de base (`sum`, `mean`, paramètre `axis`)
 
@@ -189,8 +181,6 @@ print("Moyenne de chaque élève :", moyenne_eleves)
 
 ```
 
----
-
 ## Valeurs manquantes : `np.nan` et ses pièges
 
 En analyse de données, l'absence d'information est courante. NumPy représente les valeurs manquantes ou non valides par la constante spéciale **`np.nan`** (Not a Number).
@@ -225,8 +215,6 @@ donnees_valides = mesures[~np.isnan(mesures)]
 print("Données nettoyées :", donnees_valides)
 
 ```
-
----
 
 ## Exemple de synthèse
 
@@ -268,8 +256,6 @@ print(moyenne_trimestre)
 
 ```
 
----
-
 ## Exercices de fin de chapitre
 
 **Exercice 1 :** Manipulation de matrices et slicing
@@ -293,6 +279,7 @@ temperatures = np.array([
 Calculez la température moyenne pour chaque jour (en effectuant l'opération sur les lignes, `axis=0`) en gérant proprement les valeurs manquantes (`np.nan`).
 Identifiez la ville (l'indice de la ligne) qui enregistre la température maximale globale sur l'ensemble de la période.
 
+
 # Chapitre 2 : Présentation des Series 
 
 Les `Series` constituent la structure de données unidimensionnelle fondamentale de Pandas, conçue pour stocker et manipuler efficacement des séquences de valeurs. Si elles s'apparentent de prime abord à un tableau unidimensionnel, elles se distinguent radicalement des `ndarray` de NumPy par un concept clé : **l'indexation explicite par étiquettes (labels)**.
@@ -302,10 +289,10 @@ Dans ce chapitre :
 * Comparaison entre structures ndarray et Series
 * Méthodes de création d'une `Series`
 * Attributs et méthodes d'inspection d'une `Series`
-* Réalisation d'opérations arithmétiques
-* Techniques d'extraction et de filtrage
-* Gestion et manipulation des index
-* Méthodes de transformation
+* Les `Series` temporelles : gestion des dates et du temps
+* La conversion de type dans une `Series` (`.astype()`)
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Comparaison entre structures ndarray et Series
 
@@ -338,8 +325,6 @@ ser = pd.Series([10, 20], index=['a', 'b'])
 **L'alignement automatique :** Lors d'opérations arithmétiques entre deux `Series`, Pandas aligne automatiquement les données en fonction de leurs labels et non de leur position dans le tableau, évitant ainsi de nombreuses erreurs de correspondance.
 
 **La gestion des données manquantes :** Si un label est absent lors d'une opération ou d'une fusion, Pandas gère l'incompatibilité en y associant proprement une valeur nulle (`NaN`), là où un `ndarray` provoquerait une erreur de dimension.
-
----
 
 ## Méthodes de création d'une `Series`
 
@@ -412,7 +397,6 @@ print(ser_scalaire)
 # dtype: int64
 
 ```
----
 
 ## Attributs et méthodes d'inspection d'une `Series`
 
@@ -452,7 +436,6 @@ print("\nRésumé statistique :")
 print(ser.describe())
 
 ```
---- 
 
 ## Les `Series` temporelles : gestion des dates et du temps
 
@@ -515,8 +498,6 @@ print(sous_serie)
 
 ```
 
----
-
 ### Extraction d'attributs temporels via l'accesseur `.dt`
 
 Une fois l'index ou les données typés en temps, l'accesseur `.dt` offre une multitude de propriétés pour extraire instantanément des composantes calendaires (année, mois, jour, nom du jour, etc.).
@@ -533,7 +514,6 @@ print(mois)
 # Sortie : Index([10, 10, 10, 10, 10], dtype='int32')
 
 ```
---- 
 
 ## La conversion de type dans une `Series` (`.astype()`)
 
@@ -617,18 +597,93 @@ print(statuts_bool)
 # dtype: bool
 
 ```
----
 ## Exemple de synthèse
+
+```python
+import pandas as pd
+import numpy as np
+
+# Création de données initiales (avec un oubli le 4 octobre pour simuler un trou)
+ventes_brutes = pd.Series(
+    [150, 220, 180, 310, 290], 
+    index=pd.to_datetime(['2026-10-01', '2026-10-02', '2026-10-03', '2026-10-05', '2026-10-06'])
+)
+
+print("--- 1. Données brutes initiales ---")
+print(ventes_brutes)
+
+# Réindexation pour obtenir une chronologie continue du 1 au 6 octobre
+# Les jours manquants (comme le 4) se voient attribuer la valeur 0 grâce à fill_value
+plage_jours = pd.date_range(start='2026-10-01', end='2026-10-06', freq='D')
+ventes_completes = ventes_brutes.reindex(plage_jours, fill_value=0)
+
+print("\n--- 2. Série continue après réindexation ---")
+print(ventes_completes)
+
+# Opération arithmétique (Calcul du CA sachant qu'un article rapporte en moyenne 45 €)
+panier_moyen = 45.0
+chiffre_affaires = ventes_completes * panier_moyen
+
+print("\n--- 3. Chiffre d'affaires calculé (en €) ---")
+print(chiffre_affaires)
+
+# Extraction et filtrage : Sélection des jours où le CA dépasse 10 000 €
+# Utilisation de l'accesseur temporel .dt pour afficher le nom du jour en clair
+jours_succes = chiffre_affaires[chiffre_affaires > 10000]
+
+print("\n--- 4. Jours à fort chiffre d'affaires (> 10 000 €) ---")
+print(jours_succes)
+
+# Inspection globale : Résumé statistique de la semaine
+print("\n--- 5. Résumé statistique global du CA ---")
+print(chiffre_affaires.describe())
+```
+
+Points clés à retenir :
+* **L'indexation sémantique et temporelle** permet de manipuler les données par date de manière intuitive.
+* **L'alignement automatique et `.reindex()`** évitent les erreurs lors de la manipulation de séries asymétriques ou incomplètes.
+* **La vectorisation** permet d'appliquer instantanément des calculs mathématiques globaux sans utiliser de boucles `for`.
+* **Le filtrage booléen** isole en une seule ligne les données répondant à un critère métier précis.
 
 ## Exercices de fin de chapitre
 
-**Exercice 1 :** 
-**Exercice 2 :** 
----
- 
+**Exercice 1 :** Gestion d'un catalogue de prix et conversion de types
+
+Vous récupérez un extrait de données textuelles provenant d'un ancien système informatique. Les prix des articles sont stockés sous forme de chaînes de caractères, et vous devez les nettoyer, les convertir pour effectuer des calculs, puis structurer le tout dans une `Series` Pandas dotée d'un index explicite.
+
+Partez des listes de données brutes suivantes en Python :
+```python
+import pandas as pd
+
+articles = ['Casque Audio', 'Clavier Gamer', 'Souris Sans Fil', 'Tapis de souris']
+prix_texte = ['120.50', '85.00', '45.99', '19.99']
+
+```
+
+Créez une `Series` nommée `ser_prix` en utilisant la liste `prix_texte` pour les valeurs et la liste `articles` pour l'index explicite. Affichez son type initial (`dtype`).
+À l'aide de la méthode `.astype()`, convertissez cette `Series` en nombres à virgule flottante (`float64`).
+Calculez et affichez le prix de chaque article après application d'une augmentation générale de 10 % (multiplication vectorisée par `1.10`).
+
+**Exercice 2 :** Analyse temporelle des ventes d'une boutique
+
+Une boutique en ligne souhaite analyser son volume de commandes quotidiennes sur une période de quatre jours au début du mois de novembre 2026. Vous devez manipuler un index temporel et extraire des informations calendaires.
+
+À l'aide de la fonction `pd.date_range()`, générez une plage de 4 jours consécutifs commençant le **1er novembre 2026** (`2026-11-01`).
+Créez une `Series` nommée `commandes` contenant les valeurs `[15, 32, 28, 45]` en associant l'index temporel généré à l'étape précédente.
+Utilisez le découpage (*slicing*) temporel par texte pour extraire et afficher uniquement les données allant du **2 novembre 2026 au 3 novembre 2026**.
+En utilisant l'accesseur temporel `.dt` sur l'index de votre série d'origine, extrayez et affichez le nom complet des jours de la semaine correspondants (`day_name()`).
+
+
 # Chapitre 3 : Manipuler les Series
 
 Dans ce chapitre :
+
+* Opérations arithmétiques et alignement automatique
+* Extraction et recherche de données
+* Travailler avec les index d'une `Series`
+* Transformation des valeurs d'une `Series`
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Opérations arithmétiques et alignement automatique
 
@@ -645,8 +700,6 @@ Cette fonctionnalité majeure, appelée **alignement automatique**, garantit que
 | **Multiplication** | `*` | `.mul()` | Multiplie les éléments correspondants |
 | **Division** | `/` | `.div()` | Divise les éléments correspondants |
 | **Puissance** | `**` | `.pow()` | Élève à la puissance |
-
----
 
 ### Opération avec un scalaire (Broadcasting)
 
@@ -746,17 +799,13 @@ L'une des grandes forces de Pandas réside dans la flexibilité de ses mécanism
 
 ### Comprendre la différence : `.loc` vs `.iloc`
 
-* **`.iloc` (pour *Integer Location*) :**
+**`.iloc` (pour *Integer Location*) :**
 * Fonctionne exclusivement avec des **positions entières** (de `0` à `N-1`), exactement comme une liste Python classique ou un tableau NumPy.
 * Le borne de fin est exclusive lors d'un découpage (slicing).
 
-
-* **`.loc` (pour *Location*) :**
+**`.loc` (pour *Location*) :**
 * Fonctionne exclusivement avec les **étiquettes (labels)** de l'index.
 * Le borne de fin est inclusive lors d'un découpage (contrairement aux habitudes de Python), ce qui est très pratique pour cibler explicitement une plage nommée.
-
-
----
 
 Imaginons une `Series` représentant la population (en millions) de quelques grandes villes françaises :
 
@@ -845,8 +894,6 @@ print(villes_peuplees)
 # dtype: float64
 
 ```
---- 
-
 ## Travailler avec les index d'une `Series`
 
 L'index d'une `Series` ne se contente pas d'étiqueter les données : c'est un véritable outil de pilotage. Il est possible de le modifier, de le renommer partiellement, de réindexer la série ou d'extraire des sous-ensembles ciblés pour adapter la structure de vos données en cours d'analyse.
@@ -1006,8 +1053,6 @@ print(saisons)
 
 ```
 
---- 
-
 ## Exemple de synthèse 
 
 Pour illustrer la puissance combinée des fonctionnalités de base des `Series`, imaginons le suivi du chiffre d'affaires journalier d'un site e-commerce sur une semaine. Ce script complet montre comment structurer, nettoyer, transformer et analyser ces données de bout en bout :
@@ -1058,13 +1103,15 @@ print(chiffre_affaires.describe())
 * **La vectorisation** permet d'appliquer instantanément des calculs mathématiques globaux sans utiliser de boucles `for`.
 * **Le filtrage booléen** isole en une seule ligne les données répondant à un critère métier précis.
 
---- 
-
 ## Exercices de fin de chapitre
 
-**Excerices 1:** Extraction d'une période spécifique et transformation ciblée des valeurs. Dans cet exemple, nous disposons d'un suivi journalier du trafic d'un site web. Nous souhaitons **extraire** uniquement la semaine où s'est déroulée une campagne promotionnelle, puis **transformer** ces données en leur appliquant un coefficient de correction lié à une anomalie de comptage.
+**Exercice 1 :** Extraction d'une période spécifique et transformation ciblée des valeurs. 
 
-**Excerices 2:** Extraction de composantes temporelles (.dt) et transformation conditionnelle. Cet exemple illustre comment extraire des informations sémantiques à partir des dates (les jours de la semaine) pour ensuite appliquer une transformation conditionnelle (par exemple, appliquer un tarif week-end ou jour ouvré).
+Dans cet exemple, nous disposons d'un suivi journalier du trafic d'un site web. Nous souhaitons **extraire** uniquement la semaine où s'est déroulée une campagne promotionnelle, puis **transformer** ces données en leur appliquant un coefficient de correction lié à une anomalie de comptage.
+
+**Exercice 2 :** Extraction de composantes temporelles (.dt) et transformation conditionnelle. 
+
+Cet exemple illustre comment extraire des informations sémantiques à partir des dates (les jours de la semaine) pour ensuite appliquer une transformation conditionnelle (par exemple, appliquer un tarif week-end ou jour ouvré).
 
 
 # Chapitre 4 : Présentation un DataFrame
@@ -1073,12 +1120,13 @@ Le DataFrame est la structure de données pivot de Pandas, permettant de manipul
 
 Dans ce chapitre :
 
-* Comparaison entre ndarray et DataFrame
-* Organisation interne et propriétés
-* Création à partir de listes, tuples et dictionnaires
-* Importation depuis CSV et Excel
-* Manipulation des colonnes, lignes et index
-* Techniques d'extraction de données
+* Series vs DataFrame (et comparaison avec NumPy)
+* Organisation interne et propriétés d'un DataFrame
+* Gestion des données invalides (`NaN`)
+* Créations multiples : listes, tuples et dictionnaires
+* Chargement de fichiers externes : CSV et Excel
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Series vs DataFrame (et comparaison avec NumPy)
 
@@ -1088,8 +1136,6 @@ La différence fondamentale entre les structures de Pandas (`Series` et `DataFra
 * **`DataFrame`** : Structure tabulaire bidimensionnelle composée de lignes et de colonnes étiquetées (comparable à une table SQL).
 
 Cette structure permet un **accès sémantique** aux données, facilitant grandement leur interprétation et leur manipulation.
-
----
 
 ### Création d'une `Series` avec un index personnalisé
 
@@ -1155,8 +1201,6 @@ print(df_comparaison)
 
 ```
 
----
-
 ## Organisation interne et propriétés d'un DataFrame
 
 Un `DataFrame` possède une architecture interne rigoureuse : il peut être visualisé comme un dictionnaire ordonné ou un conteneur de **`Series`** partageant un **index commun**. Techniquement, chaque colonne d'un `DataFrame` est donc une `Series` indépendante.
@@ -1168,8 +1212,6 @@ Ses propriétés principales permettent d'inspecter rapidement sa structure, ses
 * **`.columns`** : Retourne les noms des colonnes.
 * **`.dtypes`** : Indique le type de données (entier, texte, flottant, etc.) pour chaque colonne.
 * **`.values`** (ou `.to_numpy()`) : Permet d'extraire les données sous forme de tableau NumPy brut.
-
----
 
 ### Vérifier l'organisation interne (une colonne = une Series)
 
@@ -1223,6 +1265,7 @@ L'axe 1 (axis=1 ou 'columns') représente les colonnes (horizontal). Les opérat
 `df.dropna(axis=0)` : Supprime les **lignes** qui contiennent au moins une valeur manquante.
 
 Utilisation de `.axes`
+
 ```python
 import pandas as pd
 
@@ -1232,16 +1275,11 @@ df = pd.DataFrame({
 }, index=['Élève_A', 'Élève_B', 'Élève_C'])
 
 # Afficher les deux axes du DataFrame
+# df.axes[0] correspond à l'axe vertical (les lignes).
+# df.axes[1] correspond à l'axe horizontal (les colonnes).
 print(df.axes)
 
-```
-
-df.axes[0] correspond à l'axe vertical (les lignes).
-df.axes[1] correspond à l'axe horizontal (les colonnes).
-
-```python
-[Index(['Élève_A', 'Élève_B', 'Élève_C'], dtype='object'), 
- Index(['Maths', 'Physique'], dtype='object')]
+[Index(['Élève_A', 'Élève_B', 'Élève_C'], dtype='object'), Index(['Maths', 'Physique'], dtype='object')]
 
 ```
 
@@ -1261,9 +1299,9 @@ Calculer la moyenne par ligne (`axis=1`). Si l'on souhaite calculer la moyenne g
 ```python
 print(df.mean(axis=1))
 # Résultat :
-# 0    11.0
-# 1    14.5
-# 2    18.0
+# Élève_A    11.0
+# Élève_B    14.5
+# Élève_C    18.0
 # dtype: float64
 
 ```
@@ -1288,7 +1326,7 @@ print(matrice_brute)
 print(type(matrice_brute))  # Affiche : <class 'numpy.ndarray'>
 
 ```
----
+
 ## Gestion des données invalides (`NaN`)
 
 Les valeurs manquantes, représentées par `NaN` (Not a Number), sont fréquentes dans les jeux de données réels. Pandas propose des méthodes robustes pour identifier, supprimer ou remplacer ces valeurs afin d'éviter des erreurs lors de vos calculs.
@@ -1307,7 +1345,6 @@ df_clean = df.dropna()
 df_filled = df.fillna(0)
 
 ```
----
 
 ## Créations multiples : listes, tuples et dictionnaires
 
@@ -1317,7 +1354,6 @@ La création d'un `DataFrame` est extrêmement flexible et s'adapte à la struct
 * **Dictionnaire de listes (ou de tableaux)** : La méthode la plus intuitive et courante, où chaque clé du dictionnaire devient automatiquement le nom d'une colonne.
 * **Liste de dictionnaires** : Parfait pour traiter des données orientées lignes (comme des fichiers JSON ou des réponses d'API), où chaque dictionnaire représente une ligne.
 
----
 
 ### Création à partir d'une liste de listes ou de tuples
 
@@ -1397,7 +1433,6 @@ df_series = pd.DataFrame({
 print(df_series)
 
 ```
----
 
 ## Chargement de fichiers externes : CSV et Excel
 
@@ -1408,8 +1443,6 @@ Pandas propose des fonctions hautement performantes pour importer directement de
 * La gestion des valeurs manquantes (`NaN`).
 
 Pour être pleinement efficace, ces fonctions acceptent de nombreux paramètres de configuration (comme le séparateur de champs, l'encodage des caractères ou le choix des feuilles de calcul).
-
----
 
 ### Importation de base d'un fichier CSV
 
@@ -1445,7 +1478,7 @@ df.info(memory_usage='deep')
 print(df.describe(include='all'))
 
 # Aperçu des 5 premières lignes
-print(dfc.head())
+print(df.head())
 
 ```
 
@@ -1490,18 +1523,100 @@ import pandas as pd
 # df_Q1 = pd.read_excel('entreprise.xlsx', sheet_name='2026_Q1', skiprows=2, usecols="A:D")
 
 ```
----
 ## Exemple de synthèse
+
+```python
+import pandas as pd
+import numpy as np
+
+# Création d'un DataFrame e-commerce à partir d'un dictionnaire
+data = {
+    'Produit': ['Clavier', 'Souris', 'Casque', 'Écran', 'Webcam'],
+    'Prix_HT': [50.0, 25.0, 80.0, 200.0, np.nan], # Contient une valeur manquante (NaN)
+    'Stock': [120, 85, 45, 14, 60]
+}
+df_catalogue = pd.DataFrame(data, index=['P1', 'P2', 'P3', 'P4', 'P5'])
+
+print("--- 1. DataFrame d'origine ---")
+print(df_catalogue)
+
+# Inspection structurelle
+print("\n--- 2. Propriétés structurelles ---")
+print("Dimensions (shape) :", df_catalogue.shape)
+print("Colonnes disponibles :", df_catalogue.columns.tolist())
+
+# Gestion des données invalides (Remplacement du NaN par la moyenne des prix)
+prix_moyen = df_catalogue['Prix_HT'].mean()
+df_catalogue['Prix_HT'] = df_catalogue['Prix_HT'].fillna(prix_moyen)
+
+print("\n--- 3. Après nettoyage des valeurs manquantes ---")
+print(df_catalogue)
+
+# Opérations vectorisées et calculs par axe (axis)
+# Calcul de la valeur totale du stock par produit (Prix_HT * Stock)
+df_catalogue['Valeur_Stock'] = df_catalogue['Prix_HT'] * df_catalogue['Stock']
+
+# Calcul de la somme totale de la valeur du stock (en descendant les lignes, axis=0 par défaut)
+valeur_totale_parc = df_catalogue['Valeur_Stock'].sum(axis=0)
+
+print(f"\n--- 4. Valeur totale globale du parc en stock : {valeur_totale_parc} € ---")
+
+# Extraction finale sous forme de tableau NumPy brut (ex: pour export ou modèle)
+matrice_brute = df_catalogue[['Prix_HT', 'Stock']].values
+print("\n--- 5. Extraction brute sous forme de ndarray NumPy ---")
+print(matrice_brute)
+
+```
 
 ## Exercices de fin de chapitre
 
-**Exercice 1 :** 
-**Exercice 2 :** 
+
+**Exercice 1 :** Création d'un DataFrame à partir d'un dictionnaire et manipulation des propriétés structurelles
+
+Vous gérez le parc informatique d'une PME. Vous disposez des informations relatives à trois ordinateurs portables en stock, que vous devez structurer sous la forme d'un `DataFrame` Pandas pour en analyser les caractéristiques.
+
+À l'aide d'un dictionnaire de listes, créez un `DataFrame` nommé `df_parc` contenant les données suivantes :
+* **`Modele`** : `['Latitude 5420', 'ThinkPad T14', 'MacBook Pro']`
+* **`Marque`** : `['Dell', 'Lenovo', 'Apple']`
+* **`Prix_HT`** : `[950.0, 1100.0, 1850.0]`
+* **`En_Stock`** : `[True, False, True]`
+
+Attribuez un index explicite personnalisé à votre DataFrame en utilisant la liste d'identifiants : `['PC_01', 'PC_02', 'PC_03']`.
+Affichez les dimensions du DataFrame via l'attribut `.shape` ainsi que les types de données de chaque colonne via `.dtypes`.
+Extrayez la colonne `Prix_HT` dans une variable, puis vérifiez et affichez son type exact à l'aide de la fonction `type()` pour confirmer qu'il s'agit bien d'une `Series`.
+
 ---
+
+**Exercice 2 :** Utilisation des axes (`axis`) et calculs statistiques orientés
+
+Un centre de formation souhaite analyser les notes semestrielles obtenues par ses étudiants dans différentes matières scientifiques. Vous devez charger ces données et exploiter le paramètre `axis` pour automatiser les calculs.
+
+Créez un `DataFrame` nommé `df_notes` à partir du dictionnaire suivant, en définissant les noms des étudiants comme index (`index=['Élève_A', 'Élève_B', 'Élève_C']`) :
+```python
+data_notes = {
+    'Algorithmique': [14, 16, 10],
+    'Base_de_Donnees': [12, 18, 15],
+    'Reseaux': [16, 14, 13]
+}
+
+```
+
+Calculez et affichez la **moyenne par matière** en utilisant explicitement le paramètre adapté (`axis=0`).
+Calculez et affichez la **moyenne générale de chaque élève** en modifiant la direction du calcul avec l'axe horizontal (`axis=1`).
+Supprimez la colonne `'Reseaux'` du DataFrame en utilisant la méthode `.drop()` avec l'argument `axis=1` (ou `columns=...`), puis affichez le DataFrame résultant.
+
 
 # Chapitre 5 : Manipuler un DataFrame
 
 Dans ce chapitre :
+
+* Travailler sur les colonnes : sélection, calcul et nettoyage
+* Travailler sur les lignes : filtrage, ajout et suppression
+* Travailler sur les labels et index
+* Extraction de données : `.loc` vs `.iloc`
+* Exemple de synthèse
+* Exercices de fin de chapitre
+
 
 ## Travailler sur les colonnes : sélection, calcul et nettoyage
 
@@ -1509,8 +1624,6 @@ Manipuler les colonnes est l'une des tâches les plus fréquentes en science des
 
 Grâce à la **vectorisation** de Pandas
 , ces opérations s'exécutent de manière extrêmement rapide sur de grands volumes de données, évitant ainsi l'utilisation de boucles `for` lentes et inefficaces.
-
----
 
 ### Ajout d'une colonne calculée (vectorisation)
 
@@ -1591,15 +1704,12 @@ df_ordonne = df[['Produit', 'Quantite', 'Prix_HT', 'Prix_TTC', 'Total']]
 print(df_ordonne.head())
 
 ```
----
 
 ## Travailler sur les lignes : filtrage, ajout et suppression
 
 La manipulation des lignes permet de sélectionner, d'ajouter ou de supprimer des enregistrements spécifiques au sein d'un `DataFrame`.
 
 Le filtrage repose généralement sur des **conditions booléennes** (ou masques booléen) : Pandas évalue chaque ligne selon un critère pour ne conserver que celles qui remplissent la condition (`True`). Cette approche évite également les boucles itératives inefficaces grâce à la vectorisation.
-
----
 
 ### Filtrage simple avec une condition booléenne
 
@@ -1655,7 +1765,6 @@ df_nettoye = df.drop(index=[0, 3])
 print(df_nettoye)
 
 ```
----
 
 ## Travailler sur les labels et index
 
@@ -1667,7 +1776,6 @@ Manipuler les étiquettes et l'index permet d'organiser vos données selon un **
 * **Recherche et accès sémantique** ultra-rapides et précis.
 * **Flexibilité** pour restructurer la table à la volée.
 
----
 
 ### Définir une colonne existante comme index (`set_index`)
 
@@ -1721,7 +1829,6 @@ employe_specifique = df_indexe.loc['EMP02']
 print(employe_specifique)
 
 ```
----
 
 ## Extraction de données : `.loc` vs `.iloc`
 
@@ -1731,8 +1838,6 @@ L'extraction de sous-ensembles est une opération quotidienne en science des don
 * **`.iloc` (Integer Location)** : Indexation basée strictement sur les **positions numériques entières** (de 0 à n-1), indépendamment des étiquettes. *Note importante : les bornes de découpage excluent la fin, comme les listes Python classiques.*
 
 Ces outils permettent d'isoler des valeurs uniques, des tranches (slices) ou des combinaisons complexes de lignes et de colonnes en une seule commande.
-
----
 
 ### Extraction par étiquette avec `.loc`
 
@@ -1798,8 +1903,6 @@ print("Villes des étudiants avec un score > 80 :\n", villes_bons_scores)
 
 ```
 
----
-
 ## Exemple de synthèse
 
 Gestion et analyse d'un catalogue de produits. Ce script de synthèse met en œuvre un flux complet de manipulation de données avec Pandas, combinant toutes les techniques vues précédemment.
@@ -1857,13 +1960,11 @@ print("\nPremier produit (position 0) :\n", premier_produit[['Nom', 'Prix_TTC']]
 * **Sémantique** : Utilisez `.set_index()` pour remplacer les numéros de lignes par des identifiants métiers significatifs.
 * **Requêtes** : Utilisez `.loc` lorsque vous connaissez les étiquettes et `.iloc` lorsque vous travaillez sur des positions numériques.
 
---- 
-
 ## Exercices de fin de chapitre
 
-**Exercice 1** Importez un petit fichier CSV de votre choix et affichez les noms des colonnes à l'aide de l'attribut approprié.
+**Exercice 1 :** Importez un petit fichier CSV de votre choix et affichez les noms des colonnes à l'aide de l'attribut approprié.
 
-**Exercice 2** Créez un DataFrame à partir d'un dictionnaire, puis utilisez `.iloc` pour extraire uniquement la première colonne de toutes les lignes.
+**Exercice 2 :** Créez un DataFrame à partir d'un dictionnaire, puis utilisez `.iloc` pour extraire uniquement la première colonne de toutes les lignes.
 
 
 # Chapitre 6 : Opérations sur les données
@@ -1874,9 +1975,11 @@ Dans ce chapitre :
 
 * Opération de Tri
 * Itération sur les lignes et modification
-* Utilisation des fonctions `apply` pour les transformations
-* Utilisation des `pipe` pour les transformations
+* Utilisation des fonctions `apply`
+* Utilisation des `pipe`
 * Recherches et critères de filtrage
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Opération de Tri
 
@@ -1921,7 +2024,6 @@ df_multi_tri = df.sort_values(
 print(df_multi_tri)
 
 ```
-
 ## Itération sur les lignes et modification
 
 Bien que l'itération manuelle soit moins performante que les méthodes vectorisées, elle permet de modifier des lignes complexes individuellement. On utilise généralement `iterrows()` pour parcourir les lignes une par une.
@@ -1959,8 +2061,6 @@ print(df[['Produit', 'Produit_Maj']])
 
 ```
 
----
-
 Appliquer une fonction ligne par ligne (`axis=1`). Lorsque l'on a besoin de croiser plusieurs colonnes d'une **même ligne**, on utilise `axis=1`. Par exemple, pour générer une phrase de synthèse descriptive pour chaque produit :
 
 ```python
@@ -1973,7 +2073,6 @@ df['Resume'] = df.apply(
 print(df['Resume'])
 
 ```
-
 ## Utilisation des `pipe`
 
 La méthode `pipe` permet d'enchaîner plusieurs fonctions de transformation de manière lisible et structurée. Cette approche facilite la maintenance du code en isolant chaque étape de traitement dans des fonctions séparées.
@@ -2014,9 +2113,6 @@ La méthode .copy() permet de créer une copie indépendante d'un DataFrame (ou 
 ## Recherches et critères de filtrage
 
 Le filtrage consiste à extraire uniquement les lignes qui répondent à une ou plusieurs conditions logiques précises. Vous pouvez combiner plusieurs critères avec des opérateurs booléens pour un ciblage très granulaire.
-
-
-### Exemple 1 : 
 
 Isoler un catalogue avant une modification de prix et créer une grille tarifaire promotionnelle à partir du catalogue principal sans modifier les prix de base d'origine :
 
@@ -2059,8 +2155,6 @@ print(df_populaires)
 
 ```
 
----
-
 Conserver un historique de référence dans un pipeline de transformation. Dans un enchaînement de traitements, il est fréquent de dupliquer un DataFrame à une étape clé pour pouvoir comparer l'état initial et l'état final :
 
 ```python
@@ -2080,6 +2174,7 @@ comparaison = pd.DataFrame({
 print(comparaison)
 
 ```
+
 ## Exemple de synthèse
 
 En analyse de données, la synthèse consiste à agréger les indicateurs clés (totaux, moyennes, extrêmes) pour obtenir une vue macroscopique en une seule instruction.
@@ -2123,8 +2218,7 @@ print(f"Produit le plus performant (en CA) : {produit_phare}")
 
 ## Exercices de fin de chapitre
 
-
-** Exercice 1** : Diagnostic et Audit d'un Dataset de Ventes
+**Exercice 1 :** Diagnostic et Audit d'un Dataset de Ventes
 
 Tu récupères un fichier CSV contenant des données de ventes brutes d'une entreprise e-commerce (`ventes_techno.csv`). Avant toute analyse marketing, tu dois mener un audit rigoureux de la structure et de la santé des données.
 
@@ -2147,8 +2241,6 @@ df_ventes = pd.read_csv(io.StringIO(csv_data))
 * Inspection structurelle : Affiche les dimensions du DataFrame, la liste des axes (`.axes` ou `.columns`/`.index`), ainsi que le diagnostic complet de l'empreinte mémoire avec `info(memory_usage='deep')`.
 * Audit des anomalies : Identifie le nombre de valeurs manquantes par colonne.
 * Statistiques descriptives : Affiche un résumé statistique global (incluant les variables textuelles/catégorielles) pour évaluer les fourchettes de prix et les volumes.
-
----
 
 **Exercice 2 :** Pipeline de Transformation et Synthèse Commerciale
 
@@ -2184,11 +2276,16 @@ En programmation Python classique, on utilise souvent les fonctions intégrées 
 | **Mapper des valeurs** | `serie.map(dictionnaire)` | Remplacer des codes par des libellés (tables de correspondance). |
 | **Appliquer une fonction** | `serie.apply()` / `df.map()` | Exécuter une logique de calcul personnalisée sur les données. |
 
----
+Dans ce chapitre :
 
-## Le Filtrage de données : Bien plus qu'un simple `filter()`
-
-En Pandas, il existe deux manières distinctes de "filtrer" : le **filtrage conditionnel de lignes** (le plus fréquent) et le **filtrage de colonnes/index par nom**.
+* Le Filtrage de données : Bien plus qu'un simple `filter()`
+* Le filtrage conditionnel de lignes (Indexation booléenne)
+* La méthode `.filter()` : Sélectionner des colonnes ou des index par nom
+* Le Mappage (`.map()`) : Transformer et traduire des valeurs
+* Traduire des codes catégories
+* Aller plus loin : `.apply()` et `.applymap()` (ou `.map()` global)
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Le filtrage conditionnel de lignes (Indexation booléenne)
 
@@ -2234,11 +2331,50 @@ df_selection = df.filter(items=['Produit', 'Stock'])
 
 ```
 
----
-
 ## Le Mappage (`.map()`) : Transformer et traduire des valeurs
 
 La méthode **`.map()`** s'applique à une **Série** (une seule colonne). Elle est idéale pour remplacer des valeurs, traduire des codes numériques en libellés textuels, ou appliquer un dictionnaire de correspondance.
+
+Traduction de codes numériques en libellés textuels via un dictionnaire. Imaginons une série contenant des codes de statut de commande (0, 1, 2) que l'on souhaite expliciter pour un rapport métier.
+
+```python
+import pandas as pd
+
+# Série de codes de statuts de commandes
+statuts_codes = pd.Series([0, 1, 2, 0, 1], index=['C1', 'C2', 'C3', 'C4', 'C5'])
+
+# Dictionnaire de correspondance (mapping)
+correspondance_statuts = {
+    0: 'En attente',
+    1: 'Expédié',
+    2: 'Livré'
+}
+
+# Application du map pour traduire les codes en texte
+statuts_texte = statuts_codes.map(correspondance_statuts)
+
+print("--- Statuts traduits par dictionnaire ---")
+print(statuts_texte)
+
+```
+
+Application d'une fonction de transformation personnalisée. La méthode `.map()` accepte également une fonction ou une expression lambda pour modifier chaque élément de la série à la volée.
+
+```python
+import pandas as pd
+
+# Série de prénoms d'utilisateurs
+prenoms = pd.Series(['alice', 'bob', 'charlie', 'diane'])
+
+# Utilisation d'une fonction lambda pour capitaliser et ajouter un préfixe
+prenoms_formes = prenoms.map(lambda x: f"Utilisateur_{x.capitalize()}")
+
+print("\n--- Transformation dynamique via lambda ---")
+print(prenoms_formes)
+
+```
+
+> **Note :** Si une valeur présente dans la `Series` ne trouve pas de correspondance dans le dictionnaire passé à `.map()`, elle est automatiquement transformée en valeur manquante (`NaN`).
 
 ## Traduire des codes catégories
 
@@ -2267,8 +2403,6 @@ print(df_ventes)
 
 > **Attention aux valeurs absentes :** Si `.map()` rencontre une valeur qui n'existe pas dans le dictionnaire de correspondance, elle la remplace par `NaN` (valeur manquante). Pour éviter cela, on peut passer une fonction ou utiliser `.replace()`.
 
----
-
 ## Aller plus loin : `.apply()` et `.applymap()` (ou `.map()` global)
 
 Quand le mapping par dictionnaire ne suffit plus et qu'on souhaite appliquer une fonction personnalisée (ou une fonction lambda) sur tout un DataFrame ou une colonne :
@@ -2284,7 +2418,6 @@ print(df[['Produit', 'Prix_HT', 'Prix_Remise']])
 
 ```
 
----
 ## Exemple de synthèse
 
 Le nettoyage et l'enrichissement du catalogue e-commerce. Imaginons que nous récupérons un fichier de données brut comportant des codes de catégories chiffrés et des prix bruts. Notre objectif est de :
@@ -2348,9 +2481,11 @@ print(df_synthese)
 
 **Le `.apply()` offre une flexibilité totale** pour injecter du code Python personnalisé (comme des fonctions `lambda`) lorsque les opérations vectorisées de base ne suffisent plus.
 
+--- 
+
 ## Exercices de fin de chapitre
 
-**Exercice 1:** Analyse temporelle et extraction des pics d'activité
+**Exercice 1 :** Analyse temporelle et extraction des pics d'activité
 Manipuler les séries temporelles, convertir des chaînes de caractères en objets `datetime`, extraire des composantes temporelles et réaliser une agrégation croisée.
 
 Vous disposez d'un journal de transactions brutes sous forme de texte. La direction souhaite identifier quels jours de la semaine génèrent le plus de chiffre d'affaires.
@@ -2371,7 +2506,7 @@ Extrayez le **nom du jour de la semaine** (ex: *Monday*, *Tuesday*...) dans une 
 Réalisez un regroupement (`groupby`) par `Jour_Semaine` pour calculer la somme totale du chiffre d'affaires (`Montant_EUR`) et le nombre de transactions par jour.
 
 
-**Exercice 2:**  Enrichissement relationnel, Mapping et Filtrage
+**Exercice 2 :**  Enrichissement relationnel, Mapping et Filtrage
 Croiser deux tables hétérogènes avec `pd.merge()`, traduire des codes via `.map()` et appliquer un filtre conditionnel multicritère.
 
 Vous gérez deux sources de données distinctes dans votre boutique : un historique de ventes contenant des identifiants produits, et un catalogue général fournissant les détails et les catégories.
@@ -2404,6 +2539,7 @@ Réalisez une jointure (`pd.merge()`) de type **`left`** en prenant `df_ventes` 
 Calculez le montant total de chaque ligne (`Quantite * Prix_Unitaire`) dans une nouvelle colonne `CA_Ligne`.
 Filtrez enfin le DataFrame final pour n'afficher que les lignes dont le `CA_Ligne` dépasse 100 €.
 
+
 # Chapitre 8: Nettoyage et Préparation des Données
 
 Le nettoyage des données (*Data Cleaning*) est souvent l'étape la plus chronophage et la plus cruciale de tout projet en science des données. Un modèle d'apprentissage ou une analyse statistique ne vaut que par la qualité des données qui l'alimentent. Les fichiers bruts contiennent fréquemment des valeurs manquantes, des doublons, des fautes de frappe textuelles ou des valeurs aberrantes.
@@ -2415,13 +2551,11 @@ Dans ce chapitre :
 * Détecter les données invalides (`NaN`, `isna()`, `notna()`)
 * Traiter les valeurs manquantes : `fillna()`, `dropna()`, `interpolate()`
 * Détecter et supprimer les doublons : `duplicated()`, `drop_duplicates()`
-* Repérer les valeurs aberrantes
+* Repérer les valeurs aberrantes (Outliers)
 * Nettoyer les chaînes de caractères avec l'accesseur `.str`
 * Le type `category` : gain de mémoire et de performance
-* Exemple de synthèse
+* Exemple de synthèse :
 * Exercices de fin de chapitre
-
----
 
 ## Détecter les données invalides (`NaN`, `isna()`, `notna()`)
 
@@ -2468,8 +2602,6 @@ anomalies_par_colonne = df_catalogue.isna().sum()
 print("Nombre de valeurs manquantes par colonne :\n", anomalies_par_colonne)
 
 ```
-
----
 
 ## Traiter les valeurs manquantes : `fillna()`, `dropna()`, `interpolate()`
 
@@ -2518,8 +2650,6 @@ print(temperatures_propres)
 
 ```
 
----
-
 ## Détecter et supprimer les doublons : `duplicated()`, `drop_duplicates()`
 
 Les doublons faussent les analyses statistiques et les agrégations. Pandas permet de les identifier facilement et de les éliminer.
@@ -2558,8 +2688,6 @@ df_clients_uniques = df_clients.drop_duplicates(subset=['ID_Client'])
 print("\nAprès nettoyage basé sur l'ID_Client :\n", df_clients_uniques)
 
 ```
-
----
 
 ## Repérer les valeurs aberrantes (Outliers)
 
@@ -2600,8 +2728,6 @@ salaires_filtres = salaires[(salaires >= seuil_bas) & (salaires <= seuil_haut)]
 print("Salaires nettoyés des valeurs extrêmes :\n", salaires_filtres)
 
 ```
-
----
 
 ## Nettoyer les chaînes de caractères avec l'accesseur `.str`
 
@@ -2645,8 +2771,6 @@ print(df_factures)
 print("Type de la nouvelle colonne :", df_factures['Montant_Numerique'].dtype)
 
 ```
-
----
 
 ## Le type `category` : gain de mémoire et de performance
 
@@ -2698,8 +2822,6 @@ print("\n--- Empreinte mémoire optimisée (category) ---")
 df_grand.info(memory_usage='deep')
 
 ```
-
----
 
 ## Exemple de synthèse :
 
@@ -2793,8 +2915,14 @@ La gestion des séries temporelles est un pilier fondamental en analyse de donn�
 
 Dans ce chapitre :
 
-* Utilisation des modèles de temps (`Timestamp`, `Datetime`, `Timedelta`, `Period`)
+* Les 4 modèles fondamentaux du temps dans Pandas
 * Manipulation de plages temporelles avec `period_range`
+* Combiner `pd.date_range()` avec un dictionnaire de données
+* Modèles de temps
+* Manipulation de plages temporelles
+* Extraire le mois, le jour et l'heure
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Les 4 modèles fondamentaux du temps dans Pandas
 
@@ -2833,8 +2961,6 @@ print(dates_dt)
 
 ```
 
----
-
 ### `Timedelta` : Une durée ou un écart temporel
 
 Un `Timedelta` représente une durée (par exemple : 5 jours, 3 heures, 45 secondes). Il permet d'effectuer des opérations arithmétiques directement sur les dates (ajouter ou soustraire du temps).
@@ -2854,15 +2980,13 @@ print(f"Date de livraison estimée : {date_livraison}")
 
 ```
 
----
-
 ### `Period` : Une période ou un intervalle temporel fixe
 
 Contrairement au `Timestamp` qui cible une *milliseconde* précise, le `Period` représente une **durée calendaire entière** (un mois complet, un trimestre, une année). C'est particulièrement utile pour la comptabilité et l'agrégation macro-économique.
 
 ```python
 # Définir une période correspondant au mois d'octobre 2026
-periode_mois = pd.Period('2026-10', freq='M')
+periode_mois = pd.Period('2026-10', freq='ME')
 
 print(periode_mois)
 print(f"Début de la période : {periode_mois.start_time}")
@@ -2882,8 +3006,6 @@ print(f"Mois suivant : {mois_suivant}")
 * **`Period`** $\rightarrow$ Une tranche calendaire fixe (ex: *tout le mois d'octobre 2026*).
 Créer des intervalles de dates par **jour** et par **mois**, accompagnés d'exemples pratiques.
 
----
-
 ## Manipulation de plages temporelles avec `period_range`
 
 ### intervalle de jours
@@ -2900,13 +3022,12 @@ print(jours)
 
 ```
 
----
 ### intervalle de mois
 
-Générer un intervalle de mois (`freq='MS'` ou `'M'`). Pour planifier des bilans ou analyser des données mensuelles, on utilise la fréquence mensuelle.
+Générer un intervalle de mois (`freq='MS'` ou `'ME'`). Pour planifier des bilans ou analyser des données mensuelles, on utilise la fréquence mensuelle.
 
 * `'MS'` (Month Start) place la date au **premier jour** du mois.
-* `'M'` place la date au **dernier jour** du mois.
+* `'ME'` place la date au **dernier jour** du mois.
 
 ```python
 # Créer les dates de début de mois pour l'année 2026 (12 mois)
@@ -2965,12 +3086,13 @@ La fonction `period_range` permet de générer des séquences régulières de p�
 
 ```python
 # Génération d'une plage de périodes mensuelles
-plage = pd.period_range(start='2026-01', periods=3, freq='M')
+plage = pd.period_range(start='2026-01', periods=3, freq='ME')
 
 # Utilisation dans une Série
 s = pd.Series([10, 20, 30], index=plage)
 
 ```
+
 ## Extraire le mois, le jour et l'heure
 
 Pour extraire des composantes spécifiques (année, mois, jour, heure, minute) à partir d'une colonne de type date (`datetime`) dans Pandas, on utilise l'accesseur **`.dt`**.
@@ -3008,7 +3130,6 @@ df_logs['Jour_Semaine'] = df_logs['Date_Heure'].dt.day_name() # Nom du jour en a
 print(df_logs[['Date_Heure', 'Mois', 'Jour', 'Heure', 'Jour_Semaine']])
 
 ```
----
 
 ## Exemple de synthèse
 
@@ -3052,7 +3173,7 @@ print(synthese_horaire)
 
 **Exercice 1 :** Créez un `Timestamp` correspondant à la date d'aujourd'hui et ajoutez-lui un `Timedelta` de 48 heures.
 
-**Exercice 2:** Utilisez `period_range` pour générer une liste de 6 périodes trimestrielles commençant au premier trimestre 2026.
+**Exercice 2 :** Utilisez `period_range` pour générer une liste de 6 périodes trimestrielles commençant au premier trimestre 2026.
 
 
 # Chapitre 10 : Statistiques et agrégations
@@ -3062,7 +3183,11 @@ L'analyse de données repose sur la capacité à synthétiser de vastes ensemble
 Dans ce chapitre :
 
 * Statistiques descriptives
-* Agrégations par catégories avec `groupby`
+* Agrégations par catégories (`groupby`)
+* Agrégation avec plusieurs fonctions de réduction (`.agg`)
+* `.agg` vs `.groupby`
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Statistiques descriptives
 
@@ -3123,9 +3248,7 @@ print(ca_par_categorie)
 
 * **Ce qui se passe :** Pandas isole les lignes par `Categorie` ('Accessoire' d'un côté, 'Audio' de l'autre), additionne les valeurs de la colonne `Total` pour chaque groupe, et renvoie une Série indexée par les catégories.
 
----
-
-Appliquer plusieurs fonctions d'agrégation (`.agg()`). Tout comme nous l'avons vu pour l'ensemble du DataFrame, `.agg()` s'associe parfaitement à `groupby` pour croiser plusieurs indicateurs par groupe :
+Appliquer plusieurs fonctions d'agrégation (`.agg()`). `.agg()` s'associe parfaitement à `groupby` pour croiser plusieurs indicateurs par groupe :
 
 ```python
 # Appliquer des fonctions différentes selon les colonnes pour chaque catégorie
@@ -3140,8 +3263,6 @@ print(synthese_categorie)
 ```
 
 * **Ce qui se passe :** Pandas génère un tableau croisé dynamique à colonnes multiples (MultiIndex) permettant d'auditer finement chaque rayon.
-
----
 
 L'agrégation nommée pour des rapports propres. Pour éviter d'obtenir des noms de colonnes complexes ou imbriqués lors d'agrégations multiples, la syntaxe moderne de **l'agrégation nommée** permet de renommer directement les colonnes à la volée :
 
@@ -3275,9 +3396,8 @@ df_catalogue = pd.DataFrame({
 * Le chiffre d'affaires cumulé (`sum` sur la colonne `Chiffre_Affaires`), renommé `CA_Total`.
 * Transforme l'index de groupe en colonne classique pour obtenir un tableau propre et plat.
 
----
-
 **Exercice 2 :** Pipeline de transformation sécurisée et enrichissement (`copy`, `pipe`, `apply`)
+
 Préparer une simulation commerciale : appliquer une politique de remise promotionnelle ciblée et générer des libellés textuels automatisés pour chaque ligne, sans altérer le jeu de données initial.
 
 ```python
@@ -3303,8 +3423,11 @@ La fusion de données est une opération fondamentale pour consolider des inform
 
 Dans ce chapitre :
 
-* Concaténation de structures de données (`concat`)
-* Jointures complexes (`merge`, `join`)
+* Concaténation de structures
+* `pd.merge()` : Le couteau suisse des jointures (Basé sur des colonnes ou des clés)
+* La méthode `.join()` : Le spécialiste des index
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Concaténation de structures
 
@@ -3314,8 +3437,6 @@ Le principe de base de `pd.concat()`. Contrairement aux jointures complexes (`pd
 
 * **`axis=0`** (Vertical) : On ajoute des **lignes** (les DataFrames ont les mêmes colonnes mais des périodes ou des sources différentes).
 * **`axis=1`** (Horizontal) : On ajoute des **colonnes** (les DataFrames partagent le même index mais apportent des informations différentes).
-
----
 
 ### Concaténation verticale (`axis=0`) : Empiler des lignes
 
@@ -3354,8 +3475,6 @@ print(catalogue_propre)
 
 ```
 
----
-
 ### Concaténation horizontale (`axis=1`) : Juxtaposer des colonnes
 
 Plus rare, cette opération permet d'associer deux tableaux qui partagent exactement le même index (par exemple, un tableau de prix d'un côté et un tableau de stocks de l'autre).
@@ -3379,14 +3498,8 @@ print(df_complet)
 
 ```
 
----
-
 * **`pd.concat([df1, df2], axis=0)`** $\rightarrow$ **Vertical (V)** : On empile les lignes. Idéal pour concaténer des fichiers mensuels ou des historiques. Pense à `ignore_index=True` pour nettoyer l'index.
 * **`pd.concat([df1, df2], axis=1)`** $\rightarrow$ **Horizontal (H)** : On met les tableaux côte à côte en se basant sur l'index commun.
-
-
-
----
 
 ## `pd.merge()` : Le couteau suisse des jointures (Basé sur des colonnes ou des clés)
 
@@ -3438,8 +3551,6 @@ print(df_gauche)
 
 ```
 
----
-
 ## La méthode `.join()` : Le spécialiste des index
 
 Alors que `pd.merge()` cherche des colonnes, la méthode `.join()` est conçue pour fusionner des DataFrames **directement via leurs index**. C'est une écriture plus courte et élégante lorsque les données sont déjà indexées par la même clé (par exemple, un identifiant client ou une date).
@@ -3464,19 +3575,14 @@ print(df_catalogue_complet)
 
 ```
 
----
-
 ## Exemple de synthèse
 
-### Le Scénario Global : La Cuisine des Données
-
-Imaginons que tu gères les données d'une boutique informatique. Tes sources sont éparpillées :
+Imaginons que tu gères les données d'une boutique informatique. Tes sources sont éparpillées 
 
 Les ventes de janvier et de février proviennent de fichiers distincts $\rightarrow$ **On les empile (`concat`).**
 Le catalogue des produits doit être enrichi avec les coordonnées des fournisseurs via une référence commune $\rightarrow$ **On les croise (`merge`).**
 Les tableaux de prix et de stocks partagent exactement la même référence produit en index $\rightarrow$ **On les fusionne (`join`).**
 
----
 
 ### `pd.concat()` : Empiler les historiques (Vertical)
 
@@ -3504,8 +3610,6 @@ print(historique_ventes)
 
 ```
 
----
-
 ### `pd.merge()` : Relier des tables par colonnes (Relationnel)
 
 * **Objectif :** Croiser des informations hétérogènes grâce à une **clé commune** (ex: ID Produit ou Code Fournisseur).
@@ -3531,8 +3635,6 @@ print(bilan_fournisseurs)
 
 ```
 
----
-
 ### `.join()` : Fusionner des tables indexées
 
 * **Objectif :** Assembler rapidement deux tables qui partagent **exactement le même index** (sans avoir à spécifier de colonnes de jointure).
@@ -3555,8 +3657,6 @@ print(catalogue_complet)
 
 ```
 
----
-
 ### Bilan synthétique pour le manuel
 
 | Méthode | Axe de travail | Critère d'association | Cas d'usage type |
@@ -3573,14 +3673,20 @@ print(catalogue_complet)
 **Exercice 2 :** Utilisez `pd.concat` pour ajouter une ligne supplémentaire à un DataFrame existant en créant un second DataFrame contenant uniquement cette ligne.
 
 
-# Chapitre 12 :  Persistance et Formats 
+# Chapitre 12 :  Persistance et formats 
 
 La persistance des données sous Pandas consiste à faire le pont entre la mémoire vive (le DataFrame en RAM) et le stockage sur disque (fichiers physiques). Qu'il s'agisse d'ingérer des données brutes issues de systèmes tiers ou d'exporter des rapports finalisés, Pandas propose des fonctions unifiées et performantes basées sur les préfixes **`read_`** et **`to_`**.
 
 Dans ce chapitre :
 
-* Lecture et écriture de fichiers CSV
+* Le format CSV (*Comma-Separated Values*) : Le standard tabulaire
+* Le format JSON (*JavaScript Object Notation*) : Le roi du Web
+* Le format XML (*Extensible Markup Language*) : Les données semi-structurées
+* accès aux données stockées en base relationnelle (`sql`)
 * Persistance des données via le format Pickle
+* synthèse des méthodes de persistance
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Le format CSV (*Comma-Separated Values*) : Le standard tabulaire
 
@@ -3621,8 +3727,6 @@ df_ventes.to_csv(
 
 ```
 
----
-
 ## Le format JSON (*JavaScript Object Notation*) : Le roi du Web
 
 Le format JSON est omniprésent dans les architectures web et les API REST. Contrairement au CSV, il gère des structures **hiérarchiques** (imbrications d'objets et de listes).
@@ -3654,13 +3758,11 @@ df_produits.to_json(
 
 ```
 
----
-
 ## Le format XML (*Extensible Markup Language*) : Les données semi-structurées
 
 Bien que plus lourd que le JSON, le format XML reste la référence dans les environnements d'entreprise, bancaires ou administratifs (factures électroniques, flux RSS, configurations).
 
-#### Lecture d'un fichier XML (`pd.read_xml`)
+### Lecture d'un fichier XML (`pd.read_xml`)
 
 Pandas intègre nativement un moteur d'analyse XML (nécessitant les bibliothèques `lxml` ou `html5lib` en arrière-plan) :
 
@@ -3691,15 +3793,54 @@ df_factures.to_xml(
 
 ```
 
----
+## Accès aux données stockées en base relationnelle (`sql`)
 
-### Synthèse des méthodes de persistance
 
-| Format | Fonction de lecture | Méthode d'écriture | Cas d'usage principal | 
-| --- | --- | --- | --- |
-| **CSV** | `pd.read_csv()` | `df.to_csv()` | Tableaux plats, exports Excel, volumétrie simple. | 
-| **JSON** | `pd.read_json()` | `df.to_json()` | Échanges avec des API web, données imbriquées. | 
-| **XML** | `pd.read_xml()` | `df.to_xml()` | Systèmes legacy, facturation électronique, flux RSS. | 
+Lecture d'une table entière depuis une base de données SQLite locale. Dans ce cas simple, on utilise un connecteur standard (`sqlite3`) pour importer directement une table relationnelle dans un `DataFrame`.
+
+```python
+import pandas as pd
+import sqlite3
+
+# Établissement de la connexion avec la base de données SQLite
+connexion = sqlite3.connect('entreprise.db')
+
+# Lecture intégrale d'une table "employes"
+df_employes = pd.read_sql("SELECT * FROM employes", con=connexion)
+
+print("--- Aperçu de la table importée ---")
+print(df_employes.head())
+
+# Fermeture de la connexion
+connexion.close()
+
+```
+
+Exécution d'une requête filtrée via un moteur SQLAlchemy. En entreprise, on privilégie souvent **SQLAlchemy** pour s'interfacer avec divers SGBD (PostgreSQL, MySQL, SQL Server). Cela permet d'exécuter des requêtes paramétrées complexes directement depuis Pandas.
+
+```python
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Création du moteur de connexion (ex: base PostgreSQL ou SQLite)
+# Syntaxe : dialecte+driver://utilisateur:motdepasse@hote:port/nom_base
+engine = create_engine('sqlite:///entreprise.db')
+
+# Requête SQL ciblée (filtrage par département et tri)
+requete_sql = """
+    SELECT nom, departement, salaire 
+    FROM employes 
+    WHERE departement = 'Informatique' AND salaire > 3500
+    ORDER BY salaire DESC
+"""
+
+# Importation du résultat de la requête dans un DataFrame
+df_filtre = pd.read_sql(requete_sql, con=engine)
+
+print("--- Résultats filtrés depuis la base ---")
+print(df_filtre)
+
+```
 
 ## Persistance des données via le format Pickle
 
@@ -3713,8 +3854,20 @@ df.to_pickle('donnees.pkl')
 df_recharge = pd.read_pickle('donnees.pkl')
 
 ```
+ 
+## Synthèse des méthodes de persistance
+
+| Format | Fonction de lecture | Méthode d'écriture | Cas d'usage principal |
+| --- | --- | --- | --- |
+| **CSV** | `pd.read_csv()` | `df.to_csv()` | Tableaux plats, exports Excel, volumétrie simple. |
+| **JSON** | `pd.read_json()` | `df.to_json()` | Échanges avec des API web, données imbriquées. |
+| **XML** | `pd.read_xml()` | `df.to_xml()` | Systèmes legacy, facturation électronique, flux RSS. |
+| **SQL** | `pd.read_sql()` | `df.to_sql()` | Requêtage direct de SGBD (PostgreSQL, MySQL, SQLite), intégration en entreprise. |
+| **Pickle** | `pd.read_pickle()` | `df.to_pickle()` | Sauvegarde binaire rapide en local en conservant fidèlement les types de données et index complexes. |
+---
 
 ## Exemple de synthèse
+
 Le cycle complet de persistance du catalogue.Ce script démontre comment sauvegarder un même DataFrame sous les trois grands formats standards du marché en respectant les bonnes pratiques (gestion des accents, suppression des index superflus, formats structurés), puis à le recharger.
 
 ```python
@@ -3738,7 +3891,7 @@ print(df_catalogue)
 # A. Format CSV (Idéal pour la bureautique et Excel en France)
 # -> index=False évite d'exporter la colonne d'index technique (0, 1, 2)
 # -> sep=';' et utf-8-sig garantissent un affichage parfait sous Excel
-df_catalogue.to_csv('catalogue.csv', index=False, sep=;', encoding='utf-8-sig')
+df_catalogue.to_csv('catalogue.csv', index=False, sep=';', encoding='utf-8-sig')
 
 # B. Format JSON (Idéal pour le Web, les API et NoSQL)
 # -> orient='records' structure chaque ligne comme un objet indépendant
@@ -3760,18 +3913,19 @@ print(df_recharge)
 
 ```
 
----
-
 ### Les règles d'or à retenir pour votre manuel :
 
-**Toujours utiliser `index=False**` lors des exports (`to_csv`, `to_xml`, etc.) sauf si l'index possède un sens métier avéré (comme une date ou une clé primaire explicite).
+**Toujours utiliser `index=False`** lors des exports (`to_csv`, `to_xml`, etc.) sauf si l'index possède un sens métier avéré (comme une date ou une clé primaire explicite).
+
 **Soigner l'encodage (`utf-8-sig` ou `utf-8`)** pour ne jamais corrompre les caractères accentués lors du passage de Python vers des fichiers tiers.
+
 **Choisir le bon format selon l'écosystème cible** : CSV pour l'analyse tabulaire classique, JSON pour le développement web/API, et XML pour les flux d'entreprise stricts.
 
 ## Exercices de fin de chapitre
 
-**Exercice 1:** Créez un DataFrame, sauvegardez-le en format CSV, puis rechargez-le dans une nouvelle variable pour vérifier l'intégrité des données.
-**Exercice 2:** Expérimentez la sauvegarde d'un DataFrame contenant des types de données variés (nombres, textes, dates) au format Pickle et confirmez que les types sont conservés après le rechargement.
+**Exercice 1 :** Créez un DataFrame, sauvegardez-le en format CSV, puis rechargez-le dans une nouvelle variable pour vérifier l'intégrité des données.
+
+**Exercice 2 :** Expérimentez la sauvegarde d'un DataFrame contenant des types de données variés (nombres, textes, dates) au format Pickle et confirmez que les types sont conservés après le rechargement.
 
 
 # Chapitre 13 : Gestion des structures multidimensionnelles
@@ -3785,10 +3939,8 @@ Dans ce chapitre :
 * Sélection et tri sur un `MultiIndex`
 * Tableaux croisés : `pivot()`, `pivot_table()` et `crosstab()`
 * Remodeler les données : `stack()`, `unstack()` et `melt()`
-* Exemple de synthèse
+* Exemple de synthèse : Analyse multidimensionnelle e-commerce
 * Exercices de fin de chapitre
-
----
 
 ## Introduction aux Panel Data
 
@@ -3844,8 +3996,6 @@ print(df_panel_long)
 
 ```
 
----
-
 ## Utilisation du `MultiIndex`
 
 Le **`MultiIndex`** (ou index hiérarchique) permet d'associer plusieurs index à une même ligne ou à une même colonne. Il transforme un DataFrame bidimensionnel classique en une structure capable de représenter 3 dimensions ou plus.
@@ -3891,8 +4041,6 @@ df_meteo = pd.DataFrame({
 print(df_meteo)
 
 ```
-
----
 
 ## Sélection et tri sur un `MultiIndex`
 
@@ -3946,8 +4094,6 @@ print(df_trie)
 
 ```
 
----
-
 ## Tableaux croisés : `pivot()`, `pivot_table()` et `crosstab()`
 
 Pour réorganiser des tableaux de données plates en matrices de synthèse croisées, Pandas propose trois fonctions majeures adaptées à des cas d'usage précis.
@@ -3992,8 +4138,6 @@ matrice_frequence = pd.crosstab(df_commandes['Canal'], df_commandes['Type_Client
 print(matrice_frequence)
 
 ```
-
----
 
 ## Remodeler les données : `stack()`, `unstack()` et `melt()`
 
@@ -4046,8 +4190,6 @@ df_fondu = df_trimestres.melt(
 print(df_fondu)
 
 ```
-
----
 
 ## Exemple de synthèse : Analyse multidimensionnelle e-commerce
 
@@ -4115,6 +4257,7 @@ df_donnees = pd.DataFrame({
 Transformez ce tableau à l'aide de `pivot_table` pour obtenir les équipes en lignes, les projets en colonnes, et les budgets en valeurs.
 Appliquez ensuite un `melt()` sur le résultat obtenu pour le ramener sous un format long.
 
+
 # Chapitre 14: Rappel Pyplot – Les fondations graphiques de Python
 
 Bien que Pandas propose une surcouche intuitive avec `df.plot()` pour prototyper rapidement, l'écosystème graphique de Python repose en profondeur sur **Matplotlib** et son module d'interface haut niveau : **Pyplot** (`plt`). Maîtriser Pyplot est indispensable pour reprendre le contrôle total de la mise en page, structurer des figures complexes et produire des graphiques de qualité professionnelle.
@@ -4129,16 +4272,14 @@ Dans ce chapitre :
 * Exemple de synthèse
 * Exercices de fin de chapitre
 
----
-
 ## Architecture de Matplotlib : `Figure` et `Axes`
 
 Pour construire un graphique avec Matplotlib, il faut comprendre sa hiérarchie visuelle, reposant sur deux objets fondamentaux :
 
-* **La `Figure**` : C'est la fenêtre globale ou la "feuille de dessin" qui contient l'ensemble des éléments graphiques (titres globaux, légende générale, sous-graphiques).
-* **Les `Axes**` : Ce sont les zones de traçage proprement dites (le système d'axes $X$ et $Y$ où les courbes et barres sont dessinées). Une `Figure` peut contenir un ou plusieurs `Axes`.
+* **La `Figure`** : C'est la fenêtre globale ou la "feuille de dessin" qui contient l'ensemble des éléments graphiques (titres globaux, légende générale, sous-graphiques).
+* **Les `Axes`** : Ce sont les zones de traçage proprement dites (le système d'axes $X$ et $Y$ où les courbes et barres sont dessinées). Une `Figure` peut contenir un ou plusieurs `Axes`.
 
-### Création explicite d'une Figure et d'un unique objet Axes
+Création explicite d'une Figure et d'un unique objet Axes
 
 ```python
 import matplotlib.pyplot as plt
@@ -4153,7 +4294,7 @@ plt.show()
 
 ```
 
-### Manipulation des propriétés de l'objet Axes
+Manipulation des propriétés de l'objet Axes
 
 L'objet `ax` centralise toutes les commandes de modification des axes, ce qui rend le code plus modulaire et lisible que l'utilisation de fonctions globales.
 
@@ -4174,13 +4315,11 @@ plt.show()
 
 ```
 
----
-
 ## Tracer un graphique simple : `plt.plot()`
 
 La fonction **`plt.plot()`** est la fonction universelle de Matplotlib pour tracer des graphiques linéaires ou des nuages de points reliés par des lignes. Elle accepte en arguments des listes ou des tableaux NumPy pour les coordonnées $X$ et $Y$.
 
-### Tracé linéaire basique à partir de listes Python
+Tracé linéaire basique à partir de listes Python
 
 ```python
 import matplotlib.pyplot as plt
@@ -4195,7 +4334,7 @@ plt.show()
 
 ```
 
-### Personnalisation directe des traits et des marqueurs dans `plt.plot()`
+Personnalisation directe des traits et des marqueurs dans `plt.plot()`
 
 Il est possible de modifier l'apparence des courbes directement via les arguments de la fonction `plt.plot()` (couleurs, épaisseur, style de ligne et symboles de sommets).
 
@@ -4212,13 +4351,11 @@ plt.show()
 
 ```
 
----
-
 ## Titres, étiquettes, légendes et styles
 
 Un graphique professionnel doit être immédiatement compréhensible hors de son contexte. Cela nécessite l'ajout rigoureux de titres, d'étiquettes sur les axes (`xlabel`, `ylabel`), de légendes pour identifier les courbes, et éventuellement d'une grille de lecture.
 
-### Ajout de titres, libellés d'axes et de légendes
+Ajout de titres, libellés d'axes et de légendes
 
 ```python
 import matplotlib.pyplot as plt
@@ -4242,7 +4379,7 @@ plt.show()
 
 ```
 
-### Application d'un style global prédéfini
+Application d'un style global prédéfini
 
 Matplotlib propose des thèmes visuels intégrés pour modifier instantanément l'esthétique de vos figures sans tout reconfigurer à la main.
 
@@ -4263,13 +4400,11 @@ plt.show()
 
 ```
 
----
-
 ## Plusieurs graphiques dans une figure : `plt.subplots()`
 
 Lorsque l'on souhaite comparer plusieurs métriques côte à côte sans surcharger un unique repère, on utilise un système de grille de sous-graphiques (*subplots*) via `plt.subplots(nrows, ncols)`.
 
-### Grille de 1 ligne et 2 colonnes
+Grille de 1 ligne et 2 colonnes
 
 ```python
 import matplotlib.pyplot as plt
@@ -4293,7 +4428,7 @@ plt.show()
 
 ```
 
-### Grille matricielle de 2x2 sous-graphiques
+Grille matricielle de 2x2 sous-graphiques
 
 ```python
 import matplotlib.pyplot as plt
@@ -4320,13 +4455,11 @@ plt.show()
 
 ```
 
----
-
 ## Enregistrer une figure
 
 Une fois le graphique mis en forme, il est souvent nécessaire de l'exporter sous forme de fichier image (PNG, JPG) ou de format vectoriel haute qualité (PDF, SVG) pour l'insérer dans un rapport ou un e-book. On utilise pour cela la méthode **`plt.savefig()`**.
 
-### Exportation standard au format PNG haute résolution
+Exportation standard au format PNG haute résolution
 
 ```python
 import matplotlib.pyplot as plt
@@ -4345,7 +4478,7 @@ plt.close() # Ferme la figure pour libérer la mémoire
 
 ```
 
-### Exportation au format vectoriel SVG pour l'édition web ou print
+Exportation au format vectoriel SVG pour l'édition web ou print
 
 ```python
 import matplotlib.pyplot as plt
@@ -4360,8 +4493,6 @@ plt.savefig("graphique_vectoriel.svg", format='svg')
 plt.close()
 
 ```
-
----
 
 ## Exemple de synthèse
 
@@ -4402,8 +4533,6 @@ plt.show()
 
 ```
 
----
-
 ## Exercices de fin de chapitre
 
 **Exercice 1 :** Création d'une figure multi-axes personnalisée
@@ -4417,20 +4546,22 @@ Sur le second sous-graphique, tracez une fonction racine carrée ($y = \sqrt{x}$
 À l'aide de `plt.plot()`, tracez sur un même repère deux courbes représentant l'évolution hypothétique des ventes de deux produits ("Produit A" et "Produit B") sur 4 trimestres.
 Personnalisez le graphique en ajoutant un titre explicite, des libellés sur les axes $X$ et $Y$, une légende positionnée en haut à droite, ainsi qu'une grille de fond en pointillés.
 
+
 # Chapitre 15 : Visualisation de données avec Pandas (`df.plot()`)
 
-L'analyse de données complexes nécessite souvent de manipuler des dimensions supplémentaires au-delà du simple tableau bidimensionnel. Ce chapitre vous présente les Panel Data et l'utilisation des MultiIndex pour structurer vos informations de manière hiérarchique et précise.
+Ce chapitre vous guide à travers les techniques de visualisation de données en Python, combinant la simplicité d'utilisation de la méthode df.plot() de Pandas avec la puissance graphique de Matplotlib et de Seaborn.
 
 Dans ce chapitre :
 
-* Introduction aux Panel Data
-* Utilisation du `MultiIndex`
+* Visualisation avec Matplotlib, Pyplot et Seaborn
+* Le catalogue des représentations graphiques
+* Habillage, personnalisation et multi-graphiques
+* Exemple de synthèse
+* Exercices de fin de chapitre
 
 ## Visualisation avec Matplotlib, Pyplot et Seaborn
 
 Bien que la méthode `df.plot()` suffise amplement pour l'exploration rapide et la génération de graphiques simples, l'écosystème Python de la visualisation repose sur trois piliers complémentaires. Pour concevoir des rapports de production avancés ou des analyses statistiques poussées, il est indispensable de savoir sortir de Pandas pour exploiter directement **Matplotlib**, son module **Pyplot**, et la bibliothèque statistique **Seaborn**.
-
----
 
 ### La hiérarchie des outils de visualisation
 
@@ -4439,8 +4570,6 @@ Pour comprendre comment ces outils s'articulent, il faut voir Pandas comme une s
 **Pandas (`df.plot()`)** : Intégré nativement, idéal pour prototyper et visualiser directement depuis un DataFrame. Il délague le travail d'affichage à Matplotlib en arrière-plan.
 **Matplotlib / Pyplot (`plt`)** : Le moteur graphique de référence en Python. Il offre un contrôle absolu sur chaque pixel, chaque axe, chaque annotation et la structure globale de la figure.
 **Seaborn (`sns`)** : Une bibliothèque construite *au-dessus* de Matplotlib, spécialisée dans la **visualisation statistique**. Elle gère nativement les regroupements complexes, les distributions et propose des designs modernes par défaut.
-
----
 
 ### Matplotlib et Pyplot (`plt`) : Le contrôle total sur la figure
 
@@ -4472,8 +4601,6 @@ ax.grid(True, alpha=0.3)
 plt.show()
 
 ```
-
----
 
 ### Seaborn (`sns`) : L'expert en statistiques et esthétique
 
@@ -4510,8 +4637,6 @@ plt.show()
 
 ```
 
----
-
 ### Synthèse : Quel outil choisir pour votre projet ?
 
 | Outil | Niveau d'abstraction | Force principale | Cas d'usage idéal |
@@ -4528,9 +4653,7 @@ plt.show()
 * **Le nuage de points (`kind='scatter'`)** : Croisement de deux variables pour identifier des corrélations (ex: Prix vs Quantité vendue).
 * **Le diagramme circulaire (`kind='pie'`)** : Représentation des parts de marché (avec modération).
 
----
-
-### Le DataFrame de référence pour la visualisation
+Le DataFrame de référence pour la visualisation
 
 ```python
 import pandas as pd
@@ -4551,8 +4674,6 @@ df_visualisation['Chiffre_Affaires'] = df_visualisation['Prix_HT'] * df_visualis
 print(df_visualisation)
 
 ```
-
----
 
 ### Diagramme en barres (`kind='bar'`) : Comparer par catégorie
 
@@ -4608,12 +4729,10 @@ df_visualisation.plot(
 plt.show()
 
 ```
----
+
 ## Habillage, personnalisation et multi-graphiques
 
 Un graphique brut généré par défaut est utile pour l'exploration rapide, mais un rapport professionnel exige un habillage rigoureux : des axes lisibles, des titres explicites, des couleurs adaptées et une mise en page soignée. Puisque Pandas s'appuie directement sur **Matplotlib** sous le capot, il est possible de personnaliser finement chaque rendu.
-
----
 
 ### Personnalisation des axes et des titres
 
@@ -4643,7 +4762,6 @@ plt.legend(["CA Global"])                  # Affichage et nom de la légende
 plt.show()
 
 ```
----
 
 ### Mise en forme avancée : Dimensions, couleurs et styles
 
@@ -4670,8 +4788,6 @@ plt.ylabel("Euros (€)")
 plt.show()
 
 ```
-
----
 
 ### Multi-subplots : Organiser plusieurs graphiques sur une grille
 
@@ -4706,14 +4822,122 @@ plt.show()
 * **`figsize` et `colormap**` assurent l'harmonie visuelle et professionnelle de vos rapports.
 * **`subplots=True` couplé à `layout**` transforme un DataFrame multi-colonnes en un tableau de bord analytique structuré en une seule ligne de code.
 
----
 ## Exemple de synthèse
+
+Utilisation combinée de la visualisation sous Pandas, Matplotlib et Seaborn.
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Application d'un thème Seaborn moderne pour les graphiques statistiques
+sns.set_theme(style="whitegrid")
+
+# Préparation d'un DataFrame de synthèse (ventes e-commerce)
+np.random.seed(42)
+dates = pd.date_range(start='2026-10-01', periods=30, freq='D')
+df_synthese = pd.DataFrame({
+    'Date': dates,
+    'Canal': np.choice(['Web', 'Mobile', 'Boutique'], size=30),
+    'Panier_Moyen': np.random.normal(65.0, 15.0, size=30).round(2),
+    'Volume_Ventes': np.random.randint(10, 50, size=30)
+})
+
+# Calcul d'une colonne dérivée
+df_synthese['CA_Journalier'] = df_synthese['Panier_Moyen'] * df_synthese['Volume_Ventes']
+
+print("--- 1. Aperçu des données de synthèse ---")
+print(df_synthese.head())
+
+# Utilisation de Pandas (df.plot) pour un aperçu rapide du CA journalier
+plt.figure(figsize=(10, 4))
+df_synthese.set_index('Date')['CA_Journalier'].plot(
+    kind='line', 
+    color='teal', 
+    linewidth=2, 
+    marker='o',
+    title="Évolution globale du Chiffre d'Affaires journalier"
+)
+plt.ylabel("Euros (€)")
+plt.show()
+
+# Utilisation de Matplotlib (plt.subplots) pour une figure multi-axes avancée
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
+# Graphique 1 : Nuage de points (Prix vs Volume)
+ax1.scatter(df_synthese['Panier_Moyen'], df_synthese['Volume_Ventes'], color='purple', alpha=0.7)
+ax1.set_title("Relation Panier Moyen / Volume")
+ax1.set_xlabel("Panier Moyen (€)")
+ax1.set_ylabel("Volume de ventes")
+
+# Graphique 2 : Histogramme de distribution du panier moyen
+ax2.hist(df_synthese['Panier_Moyen'], bins=6, color='skyblue', edgecolor='black')
+ax2.set_title("Distribution des paniers moyens")
+ax2.set_xlabel("Montant (€)")
+ax2.set_ylabel("Fréquence")
+
+plt.tight_layout()
+plt.show()
+
+# Utilisation de Seaborn (sns) pour analyser la répartition par canal de vente
+plt.figure(figsize=(8, 4))
+sns.boxplot(
+    data=df_synthese, 
+    x='Canal', 
+    y='CA_Journalier', 
+    palette='Set2'
+)
+plt.title("Répartition du Chiffre d'Affaires selon le canal de vente")
+plt.xlabel("Canal")
+plt.ylabel("CA Journalier (€)")
+plt.show()
+
+```
 
 ## Exercices de fin de chapitre
 
-**Exercice 1 :** Créez un DataFrame avec un `MultiIndex` comportant deux niveaux : "Ville" et "Mois", et remplissez-le avec des données de température fictives.
-**Exercice 2 :** Utilisez `.loc` pour extraire toutes les données relatives à une seule ville de votre DataFrame hiérarchisé.
+**Exercice 1 :** Création d'un graphique linéaire multi-courbes et habillage personnalisé
+
+Vous suivez l'évolution mensuelle des ventes de deux produits phares d'une entreprise au cours du premier semestre 2026. Vous devez représenter ces tendances sur un même graphique en veillant à soigner l'habillage visuel.
+
+À l'aide de Pandas, créez un `DataFrame` nommé `df_suivi` contenant les données suivantes, avec les mois comme index :
+* **`Mois`** : `['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin']`
+* **`Produit_A`** : `[1200, 1350, 1500, 1420, 1600, 1750]`
+* **`Produit_B`** : `[900, 1100, 1050, 1300, 1450, 1600]`
+Définissez la colonne `'Mois'` comme index du DataFrame.
+Utilisez la méthode `.plot()` pour tracer ces deux séries sous forme de graphique linéaire (`kind='line'`).
+Personnalisez le graphique en ajoutant :
+* Une dimension physique de `(8, 4)` via `figsize`.
+* Un titre explicite (ex: *"Comparatif des ventes - 1er semestre 2026"*).
+* Des libellés clairs sur les axes (`xlabel` et `ylabel`).
+* Une grille en pointillés (`plt.grid()`).
+
+
 ---
+
+**Exercice 2 :** Génération d'une grille de graphiques multi-subplots
+
+La direction souhaite analyser simultanément plusieurs indicateurs de performance d'un site web (visites, conversions et taux de rebond) sur une semaine. Plutôt que de multiplier les figures séparées, vous devez concevoir un tableau de bord condensé.
+
+Créez un `DataFrame` nommé `df_dashboard` à l'aide de la structure suivante :
+```python
+import pandas as pd
+
+df_dashboard = pd.DataFrame({
+    'Date': pd.date_range(start='2026-10-01', periods=5, freq='D'),
+    'Visiteurs': [1200, 1450, 1300, 1600, 1850],
+    'Conversions': [45, 60, 52, 70, 85],
+    'Taux_Rebond': [0.45, 0.42, 0.48, 0.39, 0.35]
+}).set_index('Date')
+
+```
+
+Utilisez la méthode `.plot()` en combinant les arguments **`subplots=True`** et **`layout=(2, 2)`** pour répartir les métriques dans une grille de sous-graphiques.
+Ajustez les dimensions globales à `(10, 6)`, activez le partage de l'axe horizontal (`share=True`), et ajoutez des marqueurs sur les points (`marker='o'`).
+Ajoutez un titre global à la figure (`plt.suptitle(...)`) et utilisez `plt.tight_layout()` pour éviter tout chevauchement avant d'afficher le résultat.
+
 
 # Chapitre 16 : Étude de cas
 
@@ -4730,8 +4954,6 @@ Dans ce chapitre :
 * Visualisation et restitution des résultats
 * Exemple de synthèse
 * Exercices de fin de chapitre
-
----
 
 ## Présentation du jeu de données et des questions métier
 
@@ -4771,8 +4993,6 @@ df_brut.info(memory_usage='deep')
 
 ```
 
----
-
 ## Nettoyage et préparation
 
 Les données brutes comportent souvent des imperfections : espaces superflus dans les noms de pays, valeurs manquantes ou types de données mal interprétés. Nous allons nettoyer ce jeu de données.
@@ -4799,8 +5019,6 @@ print("--- Données après nettoyage ---")
 print(df_propre.head())
 
 ```
-
----
 
 ## Agrégations et croisements
 
@@ -4832,8 +5050,6 @@ print(tableau_medailles.head(5))
 
 ```
 
----
-
 ## Visualisation et restitution des résultats
 
 Pour valoriser les résultats auprès des équipes métiers, nous traduisons ce tableau de synthèse en un graphique visuel clair et soigné à l'aide de l'écosystème Matplotlib/Pandas.
@@ -4864,7 +5080,6 @@ plt.show()
 
 ```
 
----
 
 ## Exemple de synthèse 
 
@@ -4902,8 +5117,6 @@ def executer_etude_cas(chemin_fichier):
 * **Sécurité des types** : L'utilisation de `.astype('category')` et du typage date sécurise les calculs futurs et allège l'empreinte mémoire.
 * **Clarté de la restitution** : Un graphique propre doté d'un habillage explicite (titres, axes, légende) transforme des chiffres bruts en un outil d'aide à la décision percutant.
 
----
-
 ## Exercices de fin de chapitre
 
 **Exercice 1 :** Analyse par discipline sportive
@@ -4918,12 +5131,14 @@ Identifiez la discipline qui a mobilisé le plus grand nombre d'athlètes unique
 Convertissez la colonne `Date_Epreuve` en index temporel (`DatetimeIndex`).
 Utilisez un regroupement par date (`resample` ou `groupby` sur la date) pour tracer l'évolution quotidienne du nombre total de médailles décernées au cours de la quinzaine olympique.
 
+
 # Chapitre 17 : Cheatsheet NumPy / Pandas / Matplotlib
 
 ```python
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
 ```
 
 ---
@@ -5303,7 +5518,7 @@ sns.boxplot(data=df, x='Cat', y='Prix', hue='Canal', palette='Set2')
 
 ## 15. Pipeline type d'analyse
 
-```
+```text
 Charger  →  Inspecter  →  Nettoyer  →  Transformer  →  Agréger  →  Visualiser
 read_*      shape/info     dropna       colonnes       groupby     plot / savefig
             describe       drop_dup     map/apply      pivot_table
