@@ -273,6 +273,7 @@ Appliquer l'encodage `'utf-8-sig'` pour garantir l'affichage correct des accents
 
 
 **Export JSON Web :** Exportez le même DataFrame dans un fichier nommé `'catalogue_export.json'` au format liste d'enregistrements (`orient='records'`), en conservant les caractères accentués en clair (`force_ascii=False`) et avec une indentation de 4 espaces (`indent=4`).
+
 **Vérification d'intégrité :** Rechargez le fichier CSV généré dans une nouvelle variable `df_verification` à l'aide de `pd.read_csv()` en spécifiant les bons arguments de séparateur et d'encodage. Affichez les types de données (`.dtypes`) et le contenu pour confirmer que les colonnes et les accents ont été fidèlement restitués.
 
 ---
@@ -295,6 +296,9 @@ df_pipeline = pd.DataFrame({
 ```
 
 Inspectez et affichez les types initiaux des colonnes du DataFrame `df_pipeline` avec l'attribut `.dtypes`.
+
 Sauvegardez ce DataFrame sur le disque au format binaire Pickle sous le nom `'session_pipeline.pkl'` à l'aide de la méthode `.to_pickle()`.
+
 Rechargez le fichier sauvegardé dans une nouvelle variable `df_restaure` en utilisant `pd.read_pickle()`.
+
 Comparez les types (`.dtypes`) de `df_restaure` avec ceux de `df_pipeline`. Vérifiez notamment que la colonne `'Date_Commande'` est restée en `datetime64[ns]` et la colonne `'Statut'` en `category` sans qu'aucune re-conversion manuelle ne soit nécessaire.
